@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+export LC_ALL='C'
+
+# Import Sorted Words
+SORTEDWORDS="${SORTEDWORDS:=./sorted.words}"
+
+# Compare Input to Sorted Words
+tr -cs "/,.!0-9&\-\'A-Za-z" '[\n*]' </dev/stdin | sort -u | comm -23 - $SORTEDWORDS
