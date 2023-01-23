@@ -1,0 +1,1050 @@
+1. Where are the sh, sleep, and type commands located?
+    For the following answers, I used the command which "command"
+    The sh command is located at '~/usr/bin/sh'
+    The sleep command is located at '~/usr/local/cs/bin/sleep'
+    The type command is located at '~/usr/bin/type'
+
+2. What executable programs in /usr/bin have names that are exactly three characters long and start with the two letters se, and what do they do?
+    For this answer, I navigated to the path using cd and looked at whether the file was executable using emacs.
+    SED - Is a stream editor that performs text transformations on an input stream. 
+    SEQ - Prints a sequence of numbers from first to last in steps of an increment that is specified.
+
+3. When you execute the command named by the symbolic link /usr/local/cs/bin/emacs, which file actually is executed?
+    After using the command, readlink -f, I found that the symbolic link points to /usr/local/cs/emacs-28.2/bin/emacs-28.2. 
+    This suggests that when the symbolic link is interpreted it points to cs/emacs-28.2/bin/emacs-28.2 suggesting that 
+    emacs-28.2 is being executed.
+
+4. What is the version number of the /usr/bin/gcc program? of the plain gcc program? Why are they different programs?
+    For the folling answers, I found the version number by adding a "-v" after the program.
+    /usr/bin/gcc program: gcc version 8.5.0 20210514 (Red Hat 8.5.0-4) (GCC)
+    plain gcc: gcc version 12.2.0 (GCC)
+
+    They are different programs because different versions of gcc are installed to potentially interpret different versions of code. 
+    Suppose we want a legacy build of gcc for a certain code base, we can use the legacy build of gcc to ensure stability. We keep these
+    at different paths for different uses simular to having virtual environments in python with different python compilers. 
+
+5. The chmod program changes permissions on a file. What does the symbolic mode u+sx,o-w mean, in terms of permissions?
+    For the following answers, I referred to the manual of chmod using 'man chmod'.
+    'u+sx' allows us to give the user permission to 'set user or group ID on execution (s)' and 
+    'execute (or search for directories) (x)'.
+
+    'o-w' allows us to remove the permission of writing for other users not in the file's group.
+
+6. Use the find command to find all directories modified on or after the day of this class’s first lecture, that are located under (or are the same as) the directory /usr/local/cs.
+    First, I changed directory to /usr/local/cs and ensured I was there by using pwd and returning /usr/local/cs. Then I used the following command:
+
+    "find .  -newermt "2023-01-10" -type d  -ls"
+
+    The following was the output of the command.
+        1776477      8 drwxrwxr-x  51  root     csfac        8192 Jan 18 00:07 .
+        24983099      4 drwxrwxr-x   6  eggert   csfac        4096 Jan 15 16:58 ./wget2-2.0.1
+        24983100      4 drwxrwxr-x   2  eggert   csfac        4096 Jan 15 18:58 ./wget2-2.0.1/include
+        24983103      4 drwxrwxr-x   3  eggert   csfac        4096 Jan 15 18:58 ./wget2-2.0.1/lib
+        23719059      4 drwxrwxr-x   2  eggert   csfac        4096 Jan 15 18:58 ./wget2-2.0.1/lib/pkgconfig
+        24983109      4 drwxrwxr-x   2  eggert   csfac        4096 Jan 15 18:58 ./wget2-2.0.1/bin
+        6045123      4 drwxrwxr-x   3  eggert   csfac        4096 Jan 15 16:58 ./wget2-2.0.1/share
+        6045124      4 drwxrwxr-x  29  eggert   csfac        4096 Jan 15 16:58 ./wget2-2.0.1/share/locale
+        6045125      4 drwxrwxr-x   3  eggert   csfac        4096 Jan 15 16:58 ./wget2-2.0.1/share/locale/ca
+        6045126      4 drwxrwxr-x   2  eggert   csfac        4096 Jan 15 18:58 ./wget2-2.0.1/share/locale/ca/LC_MESSAGES
+        6045128      4 drwxrwxr-x   3  eggert   csfac        4096 Jan 15 16:58 ./wget2-2.0.1/share/locale/cs
+        6045129      4 drwxrwxr-x   2  eggert   csfac        4096 Jan 15 18:58 ./wget2-2.0.1/share/locale/cs/LC_MESSAGES
+        6045131      4 drwxrwxr-x   3  eggert   csfac        4096 Jan 15 16:58 ./wget2-2.0.1/share/locale/de
+        6045132      4 drwxrwxr-x   2  eggert   csfac        4096 Jan 15 18:58 ./wget2-2.0.1/share/locale/de/LC_MESSAGES
+        6045134      4 drwxrwxr-x   3  eggert   csfac        4096 Jan 15 16:58 ./wget2-2.0.1/share/locale/eo
+        6045135      4 drwxrwxr-x   2  eggert   csfac        4096 Jan 15 18:58 ./wget2-2.0.1/share/locale/eo/LC_MESSAGES
+        6045137      4 drwxrwxr-x   3  eggert   csfac        4096 Jan 15 16:58 ./wget2-2.0.1/share/locale/es
+        6045138      4 drwxrwxr-x   2  eggert   csfac        4096 Jan 15 18:58 ./wget2-2.0.1/share/locale/es/LC_MESSAGES
+        6045140      4 drwxrwxr-x   3  eggert   csfac        4096 Jan 15 16:58 ./wget2-2.0.1/share/locale/et
+        6045141      4 drwxrwxr-x   2  eggert   csfac        4096 Jan 15 18:58 ./wget2-2.0.1/share/locale/et/LC_MESSAGES
+        6045143      4 drwxrwxr-x   3  eggert   csfac        4096 Jan 15 16:58 ./wget2-2.0.1/share/locale/fi
+        12723522      4 drwxrwxr-x   2  eggert   csfac        4096 Jan 15 18:58 ./wget2-2.0.1/share/locale/fi/LC_MESSAGES
+        12125022      4 drwxrwxr-x   3  eggert   csfac        4096 Jan 15 16:58 ./wget2-2.0.1/share/locale/fr
+        12125023      4 drwxrwxr-x   2  eggert   csfac        4096 Jan 15 18:58 ./wget2-2.0.1/share/locale/fr/LC_MESSAGES
+        12125025      4 drwxrwxr-x   3  eggert   csfac        4096 Jan 15 16:58 ./wget2-2.0.1/share/locale/ga
+        12125026      4 drwxrwxr-x   2  eggert   csfac        4096 Jan 15 18:58 ./wget2-2.0.1/share/locale/ga/LC_MESSAGES
+        12125028      4 drwxrwxr-x   3  eggert   csfac        4096 Jan 15 16:58 ./wget2-2.0.1/share/locale/hr
+        12125029      4 drwxrwxr-x   2  eggert   csfac        4096 Jan 15 18:58 ./wget2-2.0.1/share/locale/hr/LC_MESSAGES
+        12125031      4 drwxrwxr-x   3  eggert   csfac        4096 Jan 15 16:58 ./wget2-2.0.1/share/locale/hu
+        12125032      4 drwxrwxr-x   2  eggert   csfac        4096 Jan 15 18:58 ./wget2-2.0.1/share/locale/hu/LC_MESSAGES
+        12125034      4 drwxrwxr-x   3  eggert   csfac        4096 Jan 15 16:58 ./wget2-2.0.1/share/locale/id
+        12125035      4 drwxrwxr-x   2  eggert   csfac        4096 Jan 15 18:58 ./wget2-2.0.1/share/locale/id/LC_MESSAGES
+        12125037      4 drwxrwxr-x   3  eggert   csfac        4096 Jan 15 16:58 ./wget2-2.0.1/share/locale/it
+        12125038      4 drwxrwxr-x   2  eggert   csfac        4096 Jan 15 18:58 ./wget2-2.0.1/share/locale/it/LC_MESSAGES
+        12125040      4 drwxrwxr-x   3  eggert   csfac        4096 Jan 15 16:58 ./wget2-2.0.1/share/locale/ja
+        12125041      4 drwxrwxr-x   2  eggert   csfac        4096 Jan 15 18:58 ./wget2-2.0.1/share/locale/ja/LC_MESSAGES
+        29502044      4 drwxrwxr-x   3  eggert   csfac        4096 Jan 15 16:58 ./wget2-2.0.1/share/locale/nb
+        29502045      4 drwxrwxr-x   2  eggert   csfac        4096 Jan 15 18:58 ./wget2-2.0.1/share/locale/nb/LC_MESSAGES
+        29502047      4 drwxrwxr-x   3  eggert   csfac        4096 Jan 15 16:58 ./wget2-2.0.1/share/locale/nl
+        29502048      4 drwxrwxr-x   2  eggert   csfac        4096 Jan 15 18:58 ./wget2-2.0.1/share/locale/nl/LC_MESSAGES
+        29502050      4 drwxrwxr-x   3  eggert   csfac        4096 Jan 15 16:58 ./wget2-2.0.1/share/locale/pl
+        29502051      4 drwxrwxr-x   2  eggert   csfac        4096 Jan 15 18:58 ./wget2-2.0.1/share/locale/pl/LC_MESSAGES
+        29502053      4 drwxrwxr-x   3  eggert   csfac        4096 Jan 15 16:58 ./wget2-2.0.1/share/locale/pt_BR
+        29502054      4 drwxrwxr-x   2  eggert   csfac        4096 Jan 15 18:58 ./wget2-2.0.1/share/locale/pt_BR/LC_MESSAGES
+        29502056      4 drwxrwxr-x   3  eggert   csfac        4096 Jan 15 16:58 ./wget2-2.0.1/share/locale/ro
+        29502057      4 drwxrwxr-x   2  eggert   csfac        4096 Jan 15 18:58 ./wget2-2.0.1/share/locale/ro/LC_MESSAGES
+        29502059      4 drwxrwxr-x   3  eggert   csfac        4096 Jan 15 16:58 ./wget2-2.0.1/share/locale/ru
+        1652101      4 drwxrwxr-x   2  eggert   csfac        4096 Jan 15 18:58 ./wget2-2.0.1/share/locale/ru/LC_MESSAGES
+        21577374      4 drwxrwxr-x   3  eggert   csfac        4096 Jan 15 16:58 ./wget2-2.0.1/share/locale/sk
+        21577375      4 drwxrwxr-x   2  eggert   csfac        4096 Jan 15 18:58 ./wget2-2.0.1/share/locale/sk/LC_MESSAGES
+        21577377      4 drwxrwxr-x   3  eggert   csfac        4096 Jan 15 16:58 ./wget2-2.0.1/share/locale/sr
+        21577378      4 drwxrwxr-x   2  eggert   csfac        4096 Jan 15 18:58 ./wget2-2.0.1/share/locale/sr/LC_MESSAGES
+        21577380      4 drwxrwxr-x   3  eggert   csfac        4096 Jan 15 16:58 ./wget2-2.0.1/share/locale/sv
+        21577381      4 drwxrwxr-x   2  eggert   csfac        4096 Jan 15 18:58 ./wget2-2.0.1/share/locale/sv/LC_MESSAGES
+        21577383      4 drwxrwxr-x   3  eggert   csfac        4096 Jan 15 16:58 ./wget2-2.0.1/share/locale/tr
+        21577384      4 drwxrwxr-x   2  eggert   csfac        4096 Jan 15 18:58 ./wget2-2.0.1/share/locale/tr/LC_MESSAGES
+        21577386      4 drwxrwxr-x   3  eggert   csfac        4096 Jan 15 16:58 ./wget2-2.0.1/share/locale/uk
+        21577387      4 drwxrwxr-x   2  eggert   csfac        4096 Jan 15 18:58 ./wget2-2.0.1/share/locale/uk/LC_MESSAGES
+        21577389      4 drwxrwxr-x   3  eggert   csfac        4096 Jan 15 16:58 ./wget2-2.0.1/share/locale/vi
+        21577390      4 drwxrwxr-x   2  eggert   csfac        4096 Jan 15 18:58 ./wget2-2.0.1/share/locale/vi/LC_MESSAGES
+        21577392      4 drwxrwxr-x   3  eggert   csfac        4096 Jan 15 16:58 ./wget2-2.0.1/share/locale/zh_CN
+        21577393      4 drwxrwxr-x   2  eggert   csfac        4096 Jan 15 18:58 ./wget2-2.0.1/share/locale/zh_CN/LC_MESSAGES
+        9827819     36 drwxrwxr-x   2  eggert   csfac       32768 Jan 18 00:07 ./bin
+        3064914      4 drwxrwxr-x   4  eggert   csfac        4096 Jan 15 16:27 ./diffutils-3.9
+        3064915      4 drwxrwxr-x   2  eggert   csfac        4096 Jan 15 16:27 ./diffutils-3.9/bin
+        3064920      4 drwxrwxr-x   5  eggert   csfac        4096 Jan 15 16:27 ./diffutils-3.9/share
+        3064921      4 drwxrwxr-x   2  eggert   csfac        4096 Jan 15 16:27 ./diffutils-3.9/share/info
+        3064924      4 drwxrwxr-x   3  eggert   csfac        4096 Jan 15 16:27 ./diffutils-3.9/share/man
+        3064925      4 drwxrwxr-x   2  eggert   csfac        4096 Jan 15 16:27 ./diffutils-3.9/share/man/man1
+        7970178      4 drwxrwxr-x  38  eggert   csfac        4096 Jan 15 16:27 ./diffutils-3.9/share/locale
+        7970179      4 drwxrwxr-x   3  eggert   csfac        4096 Jan 15 16:27 ./diffutils-3.9/share/locale/bg
+        7970180      4 drwxrwxr-x   2  eggert   csfac        4096 Jan 15 16:27 ./diffutils-3.9/share/locale/bg/LC_MESSAGES
+        7970182      4 drwxrwxr-x   3  eggert   csfac        4096 Jan 15 16:27 ./diffutils-3.9/share/locale/ca
+        7970183      4 drwxrwxr-x   2  eggert   csfac        4096 Jan 15 16:27 ./diffutils-3.9/share/locale/ca/LC_MESSAGES
+        7970185      4 drwxrwxr-x   3  eggert   csfac        4096 Jan 15 16:27 ./diffutils-3.9/share/locale/cs
+        7970186      4 drwxrwxr-x   2  eggert   csfac        4096 Jan 15 16:27 ./diffutils-3.9/share/locale/cs/LC_MESSAGES
+        7970188      4 drwxrwxr-x   3  eggert   csfac        4096 Jan 15 16:27 ./diffutils-3.9/share/locale/da
+        7970189      4 drwxrwxr-x   2  eggert   csfac        4096 Jan 15 16:27 ./diffutils-3.9/share/locale/da/LC_MESSAGES
+        7970191      4 drwxrwxr-x   3  eggert   csfac        4096 Jan 15 16:27 ./diffutils-3.9/share/locale/de
+        7970192      4 drwxrwxr-x   2  eggert   csfac        4096 Jan 15 16:27 ./diffutils-3.9/share/locale/de/LC_MESSAGES
+        19042233      4 drwxrwxr-x   3  eggert   csfac        4096 Jan 15 16:27 ./diffutils-3.9/share/locale/el
+        19042234      4 drwxrwxr-x   2  eggert   csfac        4096 Jan 15 16:27 ./diffutils-3.9/share/locale/el/LC_MESSAGES
+        19042236      4 drwxrwxr-x   3  eggert   csfac        4096 Jan 15 16:27 ./diffutils-3.9/share/locale/eo
+        19042237      4 drwxrwxr-x   2  eggert   csfac        4096 Jan 15 16:27 ./diffutils-3.9/share/locale/eo/LC_MESSAGES
+        19042239      4 drwxrwxr-x   3  eggert   csfac        4096 Jan 15 16:27 ./diffutils-3.9/share/locale/es
+        19042240      4 drwxrwxr-x   2  eggert   csfac        4096 Jan 15 16:27 ./diffutils-3.9/share/locale/es/LC_MESSAGES
+        19042242      4 drwxrwxr-x   3  eggert   csfac        4096 Jan 15 16:27 ./diffutils-3.9/share/locale/fi
+        19042243      4 drwxrwxr-x   2  eggert   csfac        4096 Jan 15 16:27 ./diffutils-3.9/share/locale/fi/LC_MESSAGES
+        19042245      4 drwxrwxr-x   3  eggert   csfac        4096 Jan 15 16:27 ./diffutils-3.9/share/locale/fr
+        19042246      4 drwxrwxr-x   2  eggert   csfac        4096 Jan 15 16:27 ./diffutils-3.9/share/locale/fr/LC_MESSAGES
+        19042248      4 drwxrwxr-x   3  eggert   csfac        4096 Jan 15 16:27 ./diffutils-3.9/share/locale/ga
+        19042249      4 drwxrwxr-x   2  eggert   csfac        4096 Jan 15 16:27 ./diffutils-3.9/share/locale/ga/LC_MESSAGES
+        19042251      4 drwxrwxr-x   3  eggert   csfac        4096 Jan 15 16:27 ./diffutils-3.9/share/locale/gl
+        19042252      4 drwxrwxr-x   2  eggert   csfac        4096 Jan 15 16:27 ./diffutils-3.9/share/locale/gl/LC_MESSAGES
+        32980038      4 drwxrwxr-x   3  eggert   csfac        4096 Jan 15 16:27 ./diffutils-3.9/share/locale/he
+        32980039      4 drwxrwxr-x   2  eggert   csfac        4096 Jan 15 16:27 ./diffutils-3.9/share/locale/he/LC_MESSAGES
+        32980041      4 drwxrwxr-x   3  eggert   csfac        4096 Jan 15 16:27 ./diffutils-3.9/share/locale/hr
+        32980042      4 drwxrwxr-x   2  eggert   csfac        4096 Jan 15 16:27 ./diffutils-3.9/share/locale/hr/LC_MESSAGES
+        32980044      4 drwxrwxr-x   3  eggert   csfac        4096 Jan 15 16:27 ./diffutils-3.9/share/locale/hu
+        32980045      4 drwxrwxr-x   2  eggert   csfac        4096 Jan 15 16:27 ./diffutils-3.9/share/locale/hu/LC_MESSAGES
+        32980047      4 drwxrwxr-x   3  eggert   csfac        4096 Jan 15 16:27 ./diffutils-3.9/share/locale/id
+        32980048      4 drwxrwxr-x   2  eggert   csfac        4096 Jan 15 16:27 ./diffutils-3.9/share/locale/id/LC_MESSAGES
+        32980050      4 drwxrwxr-x   3  eggert   csfac        4096 Jan 15 16:27 ./diffutils-3.9/share/locale/it
+        32980051      4 drwxrwxr-x   2  eggert   csfac        4096 Jan 15 16:27 ./diffutils-3.9/share/locale/it/LC_MESSAGES
+        32980053      4 drwxrwxr-x   3  eggert   csfac        4096 Jan 15 16:27 ./diffutils-3.9/share/locale/ja
+        32980054      4 drwxrwxr-x   2  eggert   csfac        4096 Jan 15 16:27 ./diffutils-3.9/share/locale/ja/LC_MESSAGES
+        32980056      4 drwxrwxr-x   3  eggert   csfac        4096 Jan 15 16:27 ./diffutils-3.9/share/locale/ka
+        32980057      4 drwxrwxr-x   2  eggert   csfac        4096 Jan 15 16:27 ./diffutils-3.9/share/locale/ka/LC_MESSAGES
+        2712173      4 drwxrwxr-x   3  eggert   csfac        4096 Jan 15 16:27 ./diffutils-3.9/share/locale/ko
+        2712174      4 drwxrwxr-x   2  eggert   csfac        4096 Jan 15 16:27 ./diffutils-3.9/share/locale/ko/LC_MESSAGES
+        2712176      4 drwxrwxr-x   3  eggert   csfac        4096 Jan 15 16:27 ./diffutils-3.9/share/locale/lv
+        2712177      4 drwxrwxr-x   2  eggert   csfac        4096 Jan 15 16:27 ./diffutils-3.9/share/locale/lv/LC_MESSAGES
+        2712179      4 drwxrwxr-x   3  eggert   csfac        4096 Jan 15 16:27 ./diffutils-3.9/share/locale/ms
+        2712180      4 drwxrwxr-x   2  eggert   csfac        4096 Jan 15 16:27 ./diffutils-3.9/share/locale/ms/LC_MESSAGES
+        2712182      4 drwxrwxr-x   3  eggert   csfac        4096 Jan 15 16:27 ./diffutils-3.9/share/locale/nb
+        2712183      4 drwxrwxr-x   2  eggert   csfac        4096 Jan 15 16:27 ./diffutils-3.9/share/locale/nb/LC_MESSAGES
+        2712185      4 drwxrwxr-x   3  eggert   csfac        4096 Jan 15 16:27 ./diffutils-3.9/share/locale/nl
+        2712186      4 drwxrwxr-x   2  eggert   csfac        4096 Jan 15 16:27 ./diffutils-3.9/share/locale/nl/LC_MESSAGES
+        2712188      4 drwxrwxr-x   3  eggert   csfac        4096 Jan 15 16:27 ./diffutils-3.9/share/locale/pl
+        2712189      4 drwxrwxr-x   2  eggert   csfac        4096 Jan 15 16:27 ./diffutils-3.9/share/locale/pl/LC_MESSAGES
+        2712191      4 drwxrwxr-x   3  eggert   csfac        4096 Jan 15 16:27 ./diffutils-3.9/share/locale/pt
+        28551600      4 drwxrwxr-x   2  eggert   csfac        4096 Jan 15 16:27 ./diffutils-3.9/share/locale/pt/LC_MESSAGES
+        32839926      4 drwxrwxr-x   3  eggert   csfac        4096 Jan 15 16:27 ./diffutils-3.9/share/locale/pt_BR
+        32839927      4 drwxrwxr-x   2  eggert   csfac        4096 Jan 15 16:27 ./diffutils-3.9/share/locale/pt_BR/LC_MESSAGES
+        32839929      4 drwxrwxr-x   3  eggert   csfac        4096 Jan 15 16:27 ./diffutils-3.9/share/locale/ro
+        32839930      4 drwxrwxr-x   2  eggert   csfac        4096 Jan 15 16:27 ./diffutils-3.9/share/locale/ro/LC_MESSAGES
+        32839932      4 drwxrwxr-x   3  eggert   csfac        4096 Jan 15 16:27 ./diffutils-3.9/share/locale/ru
+        32839933      4 drwxrwxr-x   2  eggert   csfac        4096 Jan 15 16:27 ./diffutils-3.9/share/locale/ru/LC_MESSAGES
+        32839935      4 drwxrwxr-x   3  eggert   csfac        4096 Jan 15 16:27 ./diffutils-3.9/share/locale/sr
+        32839936      4 drwxrwxr-x   2  eggert   csfac        4096 Jan 15 16:27 ./diffutils-3.9/share/locale/sr/LC_MESSAGES
+        32839938      4 drwxrwxr-x   3  eggert   csfac        4096 Jan 15 16:27 ./diffutils-3.9/share/locale/sv
+        32839939      4 drwxrwxr-x   2  eggert   csfac        4096 Jan 15 16:27 ./diffutils-3.9/share/locale/sv/LC_MESSAGES
+        32839941      4 drwxrwxr-x   3  eggert   csfac        4096 Jan 15 16:27 ./diffutils-3.9/share/locale/tr
+        32839942      4 drwxrwxr-x   2  eggert   csfac        4096 Jan 15 16:27 ./diffutils-3.9/share/locale/tr/LC_MESSAGES
+        32839944      4 drwxrwxr-x   3  eggert   csfac        4096 Jan 15 16:27 ./diffutils-3.9/share/locale/uk
+        32839945      4 drwxrwxr-x   2  eggert   csfac        4096 Jan 15 16:27 ./diffutils-3.9/share/locale/uk/LC_MESSAGES
+        6218814      4 drwxrwxr-x   3  eggert   csfac        4096 Jan 15 16:27 ./diffutils-3.9/share/locale/vi
+        6218815      4 drwxrwxr-x   2  eggert   csfac        4096 Jan 15 16:27 ./diffutils-3.9/share/locale/vi/LC_MESSAGES
+        6218817      4 drwxrwxr-x   3  eggert   csfac        4096 Jan 15 16:27 ./diffutils-3.9/share/locale/zh_CN
+        6218818      4 drwxrwxr-x   2  eggert   csfac        4096 Jan 15 16:27 ./diffutils-3.9/share/locale/zh_CN/LC_MESSAGES
+        6218820      4 drwxrwxr-x   3  eggert   csfac        4096 Jan 15 16:27 ./diffutils-3.9/share/locale/zh_TW
+        6218821      4 drwxrwxr-x   2  eggert   csfac        4096 Jan 15 16:27 ./diffutils-3.9/share/locale/zh_TW/LC_MESSAGES
+        25411827      4 drwxr-xr-x   5  eggert   csfac        4096 Jan 18 00:06 ./git-2.39.1
+        25411828      4 drwxr-xr-x   8  eggert   csfac        4096 Jan 18 00:06 ./git-2.39.1/share
+        25411829      4 drwxr-xr-x   3  eggert   csfac        4096 Jan 18 00:06 ./git-2.39.1/share/gitweb
+        25411831      4 drwxr-xr-x   2  eggert   csfac        4096 Jan 18 00:06 ./git-2.39.1/share/gitweb/static
+        21973686      4 drwxr-xr-x   3  eggert   csfac        4096 Jan 18 00:06 ./git-2.39.1/share/git-core
+        21973687      4 drwxr-xr-x   5  eggert   csfac        4096 Jan 18 00:06 ./git-2.39.1/share/git-core/templates
+        21973689      4 drwxr-xr-x   2  eggert   csfac        4096 Jan 18 00:06 ./git-2.39.1/share/git-core/templates/info
+        21973691      4 drwxr-xr-x   2  eggert   csfac        4096 Jan 18 00:06 ./git-2.39.1/share/git-core/templates/hooks
+        21973705      4 drwxr-xr-x   2  eggert   csfac        4096 Jan 18 00:06 ./git-2.39.1/share/git-core/templates/branches
+        21973706      4 drwxr-xr-x  20  eggert   csfac        4096 Jan 18 00:06 ./git-2.39.1/share/locale
+        24862943      4 drwxr-xr-x   3  eggert   csfac        4096 Jan 18 00:06 ./git-2.39.1/share/locale/zh_TW
+        24862944      4 drwxr-xr-x   2  eggert   csfac        4096 Jan 18 00:06 ./git-2.39.1/share/locale/zh_TW/LC_MESSAGES
+        24862946      4 drwxr-xr-x   3  eggert   csfac        4096 Jan 18 00:06 ./git-2.39.1/share/locale/zh_CN
+        24862947      4 drwxr-xr-x   2  eggert   csfac        4096 Jan 18 00:06 ./git-2.39.1/share/locale/zh_CN/LC_MESSAGES
+        24862949      4 drwxr-xr-x   3  eggert   csfac        4096 Jan 18 00:06 ./git-2.39.1/share/locale/vi
+        20929923      4 drwxr-xr-x   2  eggert   csfac        4096 Jan 18 00:06 ./git-2.39.1/share/locale/vi/LC_MESSAGES
+        1617420      4 drwxr-xr-x   3  eggert   csfac        4096 Jan 18 00:06 ./git-2.39.1/share/locale/tr
+        1617421      4 drwxr-xr-x   2  eggert   csfac        4096 Jan 18 00:06 ./git-2.39.1/share/locale/tr/LC_MESSAGES
+        1617423      4 drwxr-xr-x   3  eggert   csfac        4096 Jan 18 00:06 ./git-2.39.1/share/locale/sv
+        1617424      4 drwxr-xr-x   2  eggert   csfac        4096 Jan 18 00:06 ./git-2.39.1/share/locale/sv/LC_MESSAGES
+        1617426      4 drwxr-xr-x   3  eggert   csfac        4096 Jan 18 00:06 ./git-2.39.1/share/locale/ru
+        1617427      4 drwxr-xr-x   2  eggert   csfac        4096 Jan 18 00:06 ./git-2.39.1/share/locale/ru/LC_MESSAGES
+        1617429      4 drwxr-xr-x   3  eggert   csfac        4096 Jan 18 00:06 ./git-2.39.1/share/locale/pt_PT
+        1617430      4 drwxr-xr-x   2  eggert   csfac        4096 Jan 18 00:06 ./git-2.39.1/share/locale/pt_PT/LC_MESSAGES
+        1617432      4 drwxr-xr-x   3  eggert   csfac        4096 Jan 18 00:06 ./git-2.39.1/share/locale/pl
+        1617433      4 drwxr-xr-x   2  eggert   csfac        4096 Jan 18 00:06 ./git-2.39.1/share/locale/pl/LC_MESSAGES
+        1617435      4 drwxr-xr-x   3  eggert   csfac        4096 Jan 18 00:06 ./git-2.39.1/share/locale/ko
+        1617436      4 drwxr-xr-x   2  eggert   csfac        4096 Jan 18 00:06 ./git-2.39.1/share/locale/ko/LC_MESSAGES
+        1617438      4 drwxr-xr-x   3  eggert   csfac        4096 Jan 18 00:06 ./git-2.39.1/share/locale/it
+        1617439      4 drwxr-xr-x   2  eggert   csfac        4096 Jan 18 00:06 ./git-2.39.1/share/locale/it/LC_MESSAGES
+        29680245      4 drwxr-xr-x   3  eggert   csfac        4096 Jan 18 00:06 ./git-2.39.1/share/locale/is
+        29680246      4 drwxr-xr-x   2  eggert   csfac        4096 Jan 18 00:06 ./git-2.39.1/share/locale/is/LC_MESSAGES
+        29680248      4 drwxr-xr-x   3  eggert   csfac        4096 Jan 18 00:06 ./git-2.39.1/share/locale/id
+        29680249      4 drwxr-xr-x   2  eggert   csfac        4096 Jan 18 00:06 ./git-2.39.1/share/locale/id/LC_MESSAGES
+        29680251      4 drwxr-xr-x   3  eggert   csfac        4096 Jan 18 00:06 ./git-2.39.1/share/locale/fr
+        29680252      4 drwxr-xr-x   2  eggert   csfac        4096 Jan 18 00:06 ./git-2.39.1/share/locale/fr/LC_MESSAGES
+        29680254      4 drwxr-xr-x   3  eggert   csfac        4096 Jan 18 00:06 ./git-2.39.1/share/locale/es
+        29680255      4 drwxr-xr-x   2  eggert   csfac        4096 Jan 18 00:06 ./git-2.39.1/share/locale/es/LC_MESSAGES
+        29680257      4 drwxr-xr-x   3  eggert   csfac        4096 Jan 18 00:06 ./git-2.39.1/share/locale/el
+        29680258      4 drwxr-xr-x   2  eggert   csfac        4096 Jan 18 00:06 ./git-2.39.1/share/locale/el/LC_MESSAGES
+        29680260      4 drwxr-xr-x   3  eggert   csfac        4096 Jan 18 00:06 ./git-2.39.1/share/locale/de
+        29680261      4 drwxr-xr-x   2  eggert   csfac        4096 Jan 18 00:06 ./git-2.39.1/share/locale/de/LC_MESSAGES
+        29680263      4 drwxr-xr-x   3  eggert   csfac        4096 Jan 18 00:06 ./git-2.39.1/share/locale/ca
+        29680264      4 drwxr-xr-x   2  eggert   csfac        4096 Jan 18 00:06 ./git-2.39.1/share/locale/ca/LC_MESSAGES
+        13377866      4 drwxr-xr-x   3  eggert   csfac        4096 Jan 18 00:06 ./git-2.39.1/share/locale/bg
+        13377867      4 drwxr-xr-x   2  eggert   csfac        4096 Jan 18 00:06 ./git-2.39.1/share/locale/bg/LC_MESSAGES
+        18564174      4 drwxr-xr-x   4  eggert   csfac        4096 Jan 18 00:06 ./git-2.39.1/share/perl5
+        18564175      4 drwxr-xr-x   3  eggert   csfac        4096 Jan 18 00:06 ./git-2.39.1/share/perl5/FromCPAN
+        18564177      4 drwxr-xr-x   2  eggert   csfac        4096 Jan 18 00:06 ./git-2.39.1/share/perl5/FromCPAN/Mail
+        18564180      4 drwxr-xr-x   4  eggert   csfac        4096 Jan 18 00:06 ./git-2.39.1/share/perl5/Git
+        18564181      4 drwxr-xr-x   3  eggert   csfac        4096 Jan 18 00:06 ./git-2.39.1/share/perl5/Git/SVN
+        18564182      4 drwxr-xr-x   2  eggert   csfac        4096 Jan 18 00:06 ./git-2.39.1/share/perl5/Git/SVN/Memoize
+        8552111      4 drwxr-xr-x   3  eggert   csfac        4096 Jan 18 00:06 ./git-2.39.1/share/perl5/Git/LoadCPAN
+        8552112      4 drwxr-xr-x   2  eggert   csfac        4096 Jan 18 00:06 ./git-2.39.1/share/perl5/Git/LoadCPAN/Mail
+        4689575      4 drwxr-xr-x   3  eggert   csfac        4096 Jan 18 00:06 ./git-2.39.1/share/gitk
+        4689576      4 drwxr-xr-x   3  eggert   csfac        4096 Jan 18 00:06 ./git-2.39.1/share/gitk/lib
+        4689577      4 drwxr-xr-x   2  eggert   csfac        4096 Jan 18 00:06 ./git-2.39.1/share/gitk/lib/msgs
+        4689592      4 drwxr-xr-x   3  eggert   csfac        4096 Jan 18 00:06 ./git-2.39.1/share/git-gui
+        4689593      4 drwxr-xr-x   3  eggert   csfac        4096 Jan 18 00:06 ./git-2.39.1/share/git-gui/lib
+        33405742      4 drwxr-xr-x   2  eggert   csfac        4096 Jan 18 00:06 ./git-2.39.1/share/git-gui/lib/msgs
+        25411836      4 drwxr-xr-x   2  eggert   csfac        4096 Jan 18 00:06 ./git-2.39.1/bin
+        25411837      4 drwxr-xr-x   3  eggert   csfac        4096 Jan 18 00:06 ./git-2.39.1/libexec
+        25411838     16 drwxr-xr-x   3  eggert   csfac       16384 Jan 18 00:06 ./git-2.39.1/libexec/git-core
+        20482132      4 drwxr-xr-x   2  eggert   csfac        4096 Jan 18 00:06 ./git-2.39.1/libexec/git-core/mergetools
+        710748     12 drwxrwxr-x   2  eggert   csfac       12288 Jan 15 16:27 ./share/info
+        154560     32 drwxrwxr-x   2  eggert   csfac       28672 Jan 15 16:27 ./share/man/man1
+        31204630      4 drwxr-xr-x  47  eggert   csfac        4096 Jan 15 19:00 ./src
+        12189443      4 drwxr-xr-x   4  eggert   csfac        4096 Jan 18 00:06 ./src/git
+        23366532      4 drwxrwxr-x   2  eggert   csfac        4096 Jan 18 00:04 ./src/git/RCS
+        21581436      4 drwxr-xr-x   4  eggert   csfac        4096 Jan 15 19:03 ./src/python
+        22226758      4 drwxr-xr-x   2  eggert   csfac        4096 Jan 15 16:50 ./src/python/RCS
+        21382672      4 drwxr-xr-x   3  eggert   csfac        4096 Jan 15 16:27 ./src/diffutils
+        25821936      4 drwxr-xr-x   2  eggert   csfac        4096 Jan 15 16:27 ./src/diffutils/RCS
+        15117816      4 drwxrwxr-x   2  eggert   csfac        4096 Jan 15 19:01 ./src/wget2
+        7151033      4 drwxrwxr-x  28  eggert   csfac        4096 Jan 18 00:07 ./.del
+        11990266      4 drwxrwxr-x   4  eggert   csfac        4096 Jan 15 16:27 ./.del/diffutils-3.8
+        32444144      4 drwxrwxr-x   4  eggert   csfac        4096 Jan 15 16:27 ./.del/texinfo-6.8
+        13118305      4 drwxrwxr-x   6  eggert   csfac        4096 Jan 15 16:28 ./.del/ocaml-4.14.0
+        12792844      4 drwxr-xr-x   5  eggert   csfac        4096 Jan 18 00:07 ./.del/git-2.38.1
+
+7. Of the files in the same directory as find, how many of them are symbolic links?
+    After using which find, we see that the path is usr/bin. 
+    Running: "find . -maxdepth 1 -type l" here gives us the following output. Thus, there are 327 entries.
+    ./osage
+    ./lastb
+    ./mailq.postfix
+    ./nmtui-hostname
+    ./pydoc3
+    ./hoststat
+    ./xjc
+    ./ghc
+    ./makemap
+    ./gtroff
+    ./rhn_register
+    ./jstatd
+    ./runhaskell
+    ./rrdcreate
+    ./orbd
+    ./texlinks
+    ./jinfo
+    ./luaotfload-tool
+    ./open
+    ./texconfig-dialog
+    ./python3.6m
+    ./newaliases.sendmail
+    ./ppmtojpeg
+    ./keytool
+    ./paplay
+    ./serialver
+    ./X
+    ./pydoc-3
+    ./cmake3
+    ./awk
+    ./clang-cpp
+    ./foomatic-rip
+    ./hsdb
+    ./ctest3
+    ./rmail
+    ./pamrgbatopng
+    ./native2ascii
+    ./fmtutil-user
+    ./itweb-settings
+    ./captoinfo
+    ./csh
+    ./systemd-umount
+    ./cc
+    ./runhaskell-ghc
+    ./gtbl
+    ./domainname
+    ./pnmcut
+    ./purgestat
+    ./jjs
+    ./a2x
+    ./gv2gxl
+    ./pstack
+    ./yum
+    ./zsoelim
+    ./haddock
+    ./java
+    ./sudoedit
+    ./nmtui-connect
+    ./schemagen
+    ./python3
+    ./pmrepconf
+    ./driverless
+    ./sfdp
+    ./unversioned-python
+    ./zstdcat
+    ./flex++
+    ./circo
+    ./phar
+    ./ypdomainname
+    ./git-upload-archive
+    ./gsoelim
+    ./kpsewhere
+    ./bzcat
+    ./pip-3.6
+    ./updmap-sys
+    ./simpdftex
+    ./dot2gxl
+    ./etex
+    ./lsdiff
+    ./scons-configure-cache-v3.0.1-3.6
+    ./desktop-file-edit
+    ./policyeditor
+    ./pip3
+    ./neato
+    ./el5-rpmlint
+    ./easy_install-3
+    ./javadoc
+    ./wish
+    ./lprm
+    ./ld
+    ./scons-v3.0.1-3.6
+    ./fmtutil-sys
+    ./gpg2
+    ./scons-configure-cache-3.6
+    ./view
+    ./xzfgrep
+    ./psfstriptable
+    ./bzcmp
+    ./pinentry-gtk
+    ./sepolgen
+    ./vimdiff
+    ./rmic
+    ./pnmcomp
+    ./atq
+    ./ppmtouil
+    ./rpmverify
+    ./dviluatex
+    ./allcm
+    ./lpr
+    ./pmiectl
+    ./pgmoil
+    ./latex
+    ./pip-3
+    ./idlj
+    ./sconsign-v3.0.1-3.6
+    ./bzfgrep
+    ./rmid
+    ./newaliases.postfix
+    ./lualatex
+    ./pax
+    ./clang-format-diff
+    ./jhat
+    ./rvi
+    ./patchwork
+    ./allec
+    ./updmap-user
+    ./extcheck
+    ./bunzip2
+    ./gpgv2
+    ./pnmenlarge
+    ./hsc2hs
+    ./systemd-resolve
+    ./ppmquantall
+    ./pyvenv-3
+    ./dnsdomainname
+    ./kpsepath
+    ./javaws
+    ./bashbug
+    ./jsonpointer
+    ./ppmnorm
+    ./zstdmt
+    ./pydoc2
+    ./python2
+    ./ccmake3
+    ./gimp
+    ./combinediff
+    ./lp
+    ./jdeps
+    ./jar
+    ./xzcat
+    ./javap
+    ./dvi2fax
+    ./rnano
+    ./bzegrep
+    ./unxz
+    ./gimp-console
+    ./clang
+    ./asciidoc
+    ./hwloc-ls
+    ./pamon
+    ./texluajitc
+    ./gpic
+    ./ppmtotga
+    ./scons-time-3.6
+    ./pip-2
+    ./geqn
+    ./pnmarith
+    ./pstree.x11
+    ./nail
+    ./nisdomainname
+    ./psfgettable
+    ./reset
+    ./mac2unix
+    ./gnome-text-editor
+    ./git-receive-pack
+    ./lz4cat
+    ./etags
+    ./bzless
+    ./pnminterp
+    ./kpsexpand
+    ./x86_64
+    ./texluac
+    ./clhsdb
+    ./apropos
+    ./gxl2dot
+    ./i386
+    ./pnmnoraw
+    ./pack200
+    ./pip2.7
+    ./grepdiff
+    ./parecord
+    ./lz4c
+    ./unpack200
+    ./bmptoppm
+    ./nc
+    ./mysql_config
+    ./tnameserv
+    ./tclsh
+    ./scons-3.6
+    ./scons-time-v3.0.1-3.6
+    ./thumbpdf
+    ./linux64
+    ./passwd
+    ./xzegrep
+    ./Mail
+    ./fmtutil
+    ./nmtui-edit
+    ./jrunscript
+    ./pmevent
+    ./allneeded
+    ./pdfetex
+    ./ControlPanel
+    ./jstack
+    ./guile2-tools
+    ./gnroff
+    ./mail
+    ./texconfig-sys
+    ./javah
+    ./javac
+    ./jarsigner
+    ./clang++
+    ./texhash
+    ./jfr
+    ./byacc
+    ./jcmd
+    ./alt-java
+    ./gnome-keyring
+    ./el4-rpmlint
+    ./cancel
+    ./tlmgr
+    ./dvilualatex
+    ./clang-cl
+    ./pnmsplit
+    ./ksh
+    ./servertool
+    ./lpstat
+    ./texluajit
+    ./gemtopbm
+    ./gneqn
+    ./pnmtofits
+    ./emacs
+    ./flipdiff
+    ./jsonpointer-3
+    ./icontopbm
+    ./python3.6
+    ./rrdinfo
+    ./clang++-12
+    ./wsimport
+    ./sh
+    ./pgmnorm
+    ./git-upload-pack
+    ./pnmdepth
+    ./pcp2csv
+    ./dvired
+    ./libpng-config
+    ./pngtopnm
+    ./pnmtotiff
+    ./unzstd
+    ./ghc-pkg
+    ./pnmscale
+    ./guile-tools
+    ./jconsole
+    ./xzcmp
+    ./kpsetool
+    ./rksh
+    ./dstat
+    ./pkg-config
+    ./lpq
+    ./wsgen
+    ./atrm
+    ./parec
+    ./uname26
+    ./gdb
+    ./pdflatex
+    ./appletviewer
+    ./linux32
+    ./pnmtopnm
+    ./unix2mac
+    ./audit2why
+    ./rpmquery
+    ./nfs4_editfacl
+    ./gmake
+    ./cpack3
+    ./jstat
+    ./gtar
+    ./pnmfile
+    ./pbmtoicon
+    ./rvim
+    ./rview
+    ./dnf
+    ./psfaddtable
+    ./ghci
+    ./rmiregistry
+    ./mailq
+    ./subscription-manager
+    ./pmiostat
+    ./policytool
+    ./runghc
+    ./arecord
+    ./ex
+    ./texlua53
+    ./jmap
+    ./guile2
+    ./ghostscript
+    ./sg
+    ./infotocap
+    ./lex
+    ./pip-2.7
+    ./mailq.sendmail
+    ./setup-nsssysinit
+    ./pgmedge
+    ./jdb
+    ./sconsign-3.6
+    ./mktexfmt
+    ./jsadebugd
+    ./fdp
+    ./texlua
+    ./unlz4
+    ./pgmslice
+    ./twopi
+    ./modulecmd
+    ./newaliases
+    ./easy_install-2
+    ./scsi-rescan
+    ./chsh
+    ./jps
+    ./updmap
+
+8. What is the oldest file in the /usr/lib64 directory? Use the last-modified time to determine age. Specify the name of the file without the /usr/lib64/ prefix. 
+Don't ignore files whose names start with ".", but do ignore files under subdirectories of /usr/lib64/. 
+Consider files of all types, that is, your answer might be a regular file, or a directory, or something else.
+    Steps:
+    1. navigate to /usr/lib64
+    2. use man to figure out how to print time ('%T+ %p\n') (man date) time and am/pm
+    3. use man to figure out how to sort sort | head -n 1 (man sort) - means sort and return n=1 entries
+    4. Execute Command "find . -maxdepth 1  -printf '%T+ %p\n' | sort | head -n 1" 
+    
+    libbz2.so is the oldest file and is modified in 2018-08-12+00:51:50.0000000000 (2018).
+
+9. In Emacs, what commands have transpose in their name?
+    "c-h a" allows to search for commands within emacs
+
+    "c-h a transpose RET" returns the following:
+        transpose-chars
+        transpose-lines
+        transpose-paragraphs
+        transpose-regions
+        transpose-sentences
+        transpose-sexps
+        transpose-words
+
+10. What does the Emacs yank function do, and how can you easily invoke it using keystrokes?
+    According to the manual "c-h r RET c-s yank RET", the yank function means reinserting text that has been previously killed. 
+    We can invoke it using "c-y" which will yank the last kill iinto the buffer at point yank (the mark set by the cursor.)
+
+11. When looking at the directory /usr/bin, what's the difference between the output of the ls -l command, and the directory listing of the Emacs dired command?
+    ls -l lists all of things in the directory. 
+
+    According to the emacs manual, dired is the directory editor. It contains the listing of a directory and the subdirectories as well.
+    The dired command printed out the links to and from the parent and the current directory. The LS command printed out only the links within the actual directory.
+    Furthermore, with dired, we can actually interact with the directory by deletion, flagging, and operating on files. 
+
+12. Use the ps command to find your own login shell's process, all that process's ancestors, and all its descendants. 
+    Some ps options that you might find useful include -e, -f, -j, -l, -t, -H, and -T.
+
+    According to "man ps", ps -e  lists all processes. ps -f shows the full format, ps-j does job control formatting, -l displays long formating, and -t shows threads.
+    In this ps -e and ps-H are important as ps-H shows the hierarchy and ps-e shows all of the processes. 
+
+    For our case -ps -eH will give us all of the processes and their heirarchy. 
+
+        PID TTY          TIME CMD
+        2 ?        00:00:09 kthreadd
+        3 ?        00:00:00   rcu_gp
+        4 ?        00:00:00   rcu_par_gp
+        6 ?        00:00:00   kworker/0:0H-events_highpri
+        9 ?        00:00:00   mm_percpu_wq
+        10 ?        00:03:26   ksoftirqd/0
+        11 ?        01:46:23   rcu_sched
+        12 ?        00:00:03   migration/0
+        13 ?        00:00:05   watchdog/0
+        14 ?        00:00:00   cpuhp/0
+        15 ?        00:00:00   cpuhp/1
+        16 ?        00:00:25   watchdog/1
+        17 ?        00:00:03   migration/1
+        18 ?        00:03:18   ksoftirqd/1
+        20 ?        00:00:00   kworker/1:0H-events_highpri
+        21 ?        00:00:00   cpuhp/2
+        22 ?        00:00:23   watchdog/2
+        23 ?        00:00:04   migration/2
+        24 ?        00:03:30   ksoftirqd/2
+        26 ?        00:00:00   kworker/2:0H-events_highpri
+        27 ?        00:00:00   cpuhp/3
+        28 ?        00:00:27   watchdog/3
+        29 ?        00:00:03   migration/3
+        30 ?        00:03:48   ksoftirqd/3
+        32 ?        00:00:00   kworker/3:0H-events_highpri
+        37 ?        00:00:00   kdevtmpfs
+        38 ?        00:00:00   netns
+        39 ?        00:00:00   rcu_tasks_trace
+        40 ?        00:00:00   rcu_tasks_rude_
+        41 ?        00:00:22   kauditd
+        43 ?        00:00:12   khungtaskd
+        44 ?        00:02:12   oom_reaper
+        45 ?        00:00:00   writeback
+        46 ?        00:00:05   kcompactd0
+        47 ?        00:00:00   ksmd
+        48 ?        00:06:04   khugepaged
+        49 ?        00:00:00   crypto
+        50 ?        00:00:00   kintegrityd
+        51 ?        00:00:00   kblockd
+        52 ?        00:00:00   blkcg_punt_bio
+        53 ?        00:00:00   tpm_dev_wq
+        54 ?        00:00:00   md
+        55 ?        00:00:00   edac-poller
+        56 ?        00:00:00   watchdogd
+        58 ?        00:00:17   kworker/0:1H-kblockd
+        91 ?        00:22:52   kswapd0
+        193 ?        00:00:00   kthrotld
+        194 ?        00:00:00   acpi_thermal_pm
+        195 ?        00:00:00   kmpath_rdacd
+        196 ?        00:00:00   kaluad
+        197 ?        00:00:06   kworker/2:1H-kblockd
+        198 ?        00:00:00   ipv6_addrconf
+        200 ?        00:00:00   kstrp
+        288 ?        00:00:07   kworker/1:1H-kblockd
+        318 ?        00:00:08   kworker/3:1H-kblockd
+        526 ?        00:00:00   hv_vmbus_con
+        530 ?        00:00:00   hv_pri_chan
+        532 ?        00:00:00   hv_sub_chan
+        538 ?        00:00:00   scsi_eh_0
+        539 ?        00:00:00   scsi_tmf_0
+        540 ?        00:00:00   storvsc_error_w
+        600 ?        00:00:00   kdmflush
+        609 ?        00:00:00   kdmflush
+        623 ?        00:00:00   kdmflush
+        647 ?        00:00:01   jbd2/dm-0-8
+        648 ?        00:00:00   ext4-rsv-conver
+        691 ?        00:00:05   jbd2/dm-2-8
+        692 ?        00:00:00   ext4-rsv-conver
+        920 ?        00:03:37   hv_balloon
+        976 ?        00:00:00   kdmflush
+        977 ?        00:00:00   kdmflush
+        979 ?        00:00:00   kdmflush
+        986 ?        00:00:00   nfit
+    1041 ?        00:00:55   jbd2/dm-3-8
+    1042 ?        00:00:00   ext4-rsv-conver
+    1047 ?        00:00:00   jbd2/sda2-8
+    1048 ?        00:00:00   ext4-rsv-conver
+    1050 ?        00:00:22   jbd2/dm-4-8
+    1051 ?        00:00:00   ext4-rsv-conver
+    1052 ?        00:00:00   jbd2/dm-5-8
+    1053 ?        00:00:00   ext4-rsv-conver
+    1085 ?        00:00:00   rpciod
+    1087 ?        00:00:00   xprtiod
+    2942 ?        00:00:00   nfsiod
+    3335 ?        00:00:00   lockd
+    2550260 ?        00:00:00   kworker/u480:1-nfsiod
+    2554991 ?        00:00:00   kworker/u481:1-xprtiod
+    2555902 ?        00:00:00   kworker/2:1-events_power_efficient
+    2556112 ?        00:00:00   kworker/u480:0-nfsiod
+    2556268 ?        00:00:00   kworker/u481:0-xprtiod
+    2558208 ?        00:00:00   kworker/u480:3-rpciod
+    2558446 ?        00:00:00   kworker/0:1-events
+    2558515 ?        00:00:00   kworker/2:3-cgroup_pidlist_destroy
+    2558566 ?        00:00:00   kworker/3:0-events
+    2559043 ?        00:00:00   kworker/1:0-events
+    2559044 ?        00:00:00   kworker/1:2-events
+    2559144 ?        00:00:00   kworker/3:1-cgroup_destroy
+    2559147 ?        00:00:00   kworker/0:5-events
+    2559186 ?        00:00:00   kworker/u481:2-xprtiod
+    2559187 ?        00:00:00   kworker/u480:2-events_unbound
+        1 ?        00:39:29 systemd
+        800 ?        00:00:26   systemd-udevd
+    1084 ?        00:35:56   rpcbind
+    1091 ?        00:04:34   auditd
+    1093 ?        00:01:39     sedispatch
+    1116 ?        00:00:22   sssd
+    1188 ?        00:02:18     sssd_be
+    1192 ?        00:02:12     sssd_nss
+    1118 ?        00:02:19   polkitd
+    1119 ?        00:00:01   smartd
+    1120 ?        00:17:41   irqbalance
+    1123 ?        00:00:29   avahi-daemon
+    1150 ?        00:00:00     avahi-daemon
+    1126 ?        00:00:00   hypervvssd
+    1134 ?        00:23:27   dbus-daemon
+    1135 ?        00:00:35   lsmd
+    1136 ?        00:00:00   mcelog
+    1140 ?        01:40:11   rngd
+    1144 ?        00:00:00   gpm
+    1146 ?        00:00:25   chronyd
+    1191 ?        00:00:04   firewalld
+    1438 ?        02:12:43   NetworkManager
+    1518 ?        00:42:19   tuned
+    1543 ?        00:00:58   sshd
+    2488869 ?        00:00:00     sshd
+    2488896 ?        00:00:00       sshd
+    2488898 pts/7    00:00:00         bash
+    2489608 ?        00:00:00     sshd
+    2489626 ?        00:00:00       sshd
+    2489628 pts/2    00:00:00         bash
+    2489697 pts/2    00:00:00           emacs
+    2504019 pts/2    00:00:00           emacs
+    2509796 pts/2    00:00:02           emacs
+    2500534 ?        00:00:00     sshd
+    2500537 ?        00:00:00       sshd
+    2500539 pts/21   00:00:00         bash
+    2520414 ?        00:00:00     sshd
+    2520417 ?        00:00:00       sshd
+    2520419 pts/34   00:00:00         bash
+    2521559 pts/34   00:00:00           emacs
+    2523989 pts/34   00:00:00           emacs
+    2526022 pts/34   00:00:00           emacs
+    2532253 pts/34   00:00:00           emacs
+    2533803 pts/34   00:00:00           emacs
+    2535984 pts/34   00:00:00           man
+    2536001 pts/34   00:00:00             less
+    2536939 pts/34   00:00:00           emacs
+    2537160 pts/34   00:00:00           emacs
+    2537707 pts/34   00:00:00           emacs
+    2539608 pts/34   00:00:00           emacs
+    2540281 pts/34   00:00:00           emacs
+    2521756 ?        00:00:00     sshd
+    2521759 ?        00:00:00       sshd
+    2521761 pts/6    00:00:00         bash
+    2558247 pts/6    00:00:00           man
+    2558262 pts/6    00:00:00             less
+    2523771 ?        00:00:00     sshd
+    2523776 ?        00:00:04       sshd
+    2523780 ?        00:00:00         bash
+    2523823 ?        00:00:00           bash
+    2529983 ?        00:00:00     sshd
+    2529988 ?        00:00:00       sshd
+    2529990 pts/28   00:00:00         bash
+    2540303 pts/28   00:00:03           emacs
+    2533036 ?        00:00:00     sshd
+    2533056 ?        00:00:00       sshd
+    2533058 ?        00:00:00         bash
+    2533099 ?        00:00:00           sh
+    2533111 ?        00:00:05             node
+    2533155 ?        00:00:00               node
+    2533330 ?        00:00:10               node
+    2533341 ?        00:00:00               node
+    2559682 ?        00:00:00           sleep
+    2533275 ?        00:00:00     sshd
+    2533280 ?        00:00:00       sshd
+    2533282 ?        00:00:00         bash
+    2559691 ?        00:00:00           sleep
+    2533390 ?        00:00:00     sshd
+    2533409 ?        00:00:00       sshd
+    2533411 pts/9    00:00:00         bash
+    2534165 pts/9    00:00:00           ocaml
+    2533806 ?        00:00:00     sshd
+    2533824 ?        00:00:00       sshd
+    2533826 ?        00:00:00         bash
+    2533877 ?        00:00:00           bash
+    2533917 ?        00:00:00             sh
+    2533929 ?        00:00:14               node
+    2533983 ?        00:00:04                 node
+    2534118 pts/39   00:00:00                   bash
+    2534247 pts/39   00:00:01                     ocaml
+    2534043 ?        00:00:11                 node
+    2534054 ?        00:00:00                 node
+    2534482 ?        00:00:00     sshd
+    2534488 ?        00:00:00       sshd
+    2534490 pts/42   00:00:00         bash
+    2558923 pts/42   00:00:00           ocaml
+    2535884 ?        00:00:00     sshd
+    2535906 ?        00:00:00       sshd
+    2535908 pts/41   00:00:00         bash
+    2558753 pts/41   00:00:00           man
+    2558765 pts/41   00:00:00             less
+    2539729 ?        00:00:00     sshd
+    2539746 ?        00:00:00       sshd
+    2539748 pts/5    00:00:00         bash
+    2541011 ?        00:00:00     sshd
+    2541062 ?        00:00:00       sshd
+    2541064 pts/13   00:00:00         bash
+    2557934 pts/13   00:00:01           emacs
+    2557937 pts/52   00:00:00             bash
+    2542151 ?        00:00:00     sshd
+    2542224 ?        00:00:00       sshd
+    2542226 pts/15   00:00:00         bash
+    2550505 pts/15   00:00:00           emacs
+    2555814 pts/15   00:00:00           emacs
+    2559862 pts/15   00:00:00           emacs
+    2545092 ?        00:00:00     sshd
+    2545134 ?        00:00:00       sshd
+    2545136 pts/24   00:00:00         bash
+    2545983 ?        00:00:00     sshd
+    2546017 ?        00:00:02       sshd
+    2546019 pts/22   00:00:00         bash
+    2559807 pts/22   00:00:00           emacs
+    2548496 ?        00:00:00     sshd
+    2548554 ?        00:00:00       sshd
+    2548556 pts/25   00:00:00         bash
+    2554906 pts/25   00:00:02           emacs
+    2558046 pts/25   00:00:02           emacs
+    2549020 ?        00:00:00     sshd
+    2549038 ?        00:00:00       sshd
+    2549040 pts/32   00:00:00         bash
+    2550583 ?        00:00:00     sshd
+    2550619 ?        00:00:00       sshd
+    2550621 pts/44   00:00:00         bash
+    2550678 ?        00:00:00     sshd
+    2550688 ?        00:00:00       sshd
+    2550690 pts/45   00:00:00         bash
+    2550786 pts/45   00:00:01           emacs
+    2550792 ?        00:00:00     sshd
+    2550815 ?        00:00:00       sshd
+    2550817 pts/46   00:00:00         bash
+    2553028 ?        00:00:00     sshd
+    2553053 ?        00:00:00       sshd
+    2553055 pts/33   00:00:00         bash
+    2553257 pts/33   00:00:02           emacs
+    2553033 ?        00:00:00     sshd
+    2553130 ?        00:00:00       sshd
+    2553132 pts/48   00:00:00         bash
+    2559940 pts/48   00:00:00           emacs
+    2553189 ?        00:00:00     sshd
+    2553192 ?        00:00:00       sshd
+    2553194 pts/49   00:00:00         bash
+    2559008 pts/49   00:00:00           man
+    2559023 pts/49   00:00:00             less
+    2554675 ?        00:00:00     sshd
+    2554682 ?        00:00:00       sshd
+    2554684 pts/51   00:00:00         bash
+    2558234 pts/51   00:00:01           emacs
+    2555531 ?        00:00:00     sshd
+    2555562 ?        00:00:00       sshd
+    2555564 pts/27   00:00:00         bash
+    2556975 pts/27   00:00:00           emacs
+    2557278 ?        00:00:00     sshd
+    2557281 ?        00:00:00       sshd
+    2557283 pts/11   00:00:00         bash
+    2557447 pts/11   00:00:00           nano
+    2557475 ?        00:00:00     sshd
+    2557492 ?        00:00:00       sshd
+    2557494 pts/50   00:00:00         bash
+    2559627 ?        00:00:00     sshd
+    2559630 ?        00:00:00       sshd
+    2559632 pts/0    00:00:00         bash
+    2559693 pts/0    00:00:00           emacs
+    2559942 ?        00:00:00     sshd
+    2559943 ?        00:00:00       sshd
+    2559944 ?        00:00:00       sshd
+    1544 ?        00:00:03   hypervkvpd
+    1554 ?        00:00:00   rpc.ypxfrd
+    1578 ?        00:00:01   rhsmcertd
+    1595 ?        00:00:22   ypbind
+    1613 ?        00:00:00   gssproxy
+    1651 ?        00:06:38   systemd-logind
+    1652 ?        00:00:00   cupsd
+    2982 ?        00:00:44   nrpe
+    3083 ?        00:07:11   sendmail
+    3136 ?        00:00:03   sendmail
+    3203 ?        00:00:00   rpc.statd
+    3494 ?        00:00:23   crond
+    3500 ?        00:00:00   atd
+    3504 tty1     00:00:00   agetty
+    276144 ?        00:00:14   certmonger
+    580411 ?        00:11:28   ypserv
+    1156958 ?        00:02:28   udisksd
+    3826433 ?        00:02:23   rtkit-daemon
+    1948512 ?        00:17:20   rsyslogd
+    1949484 ?        00:08:26   systemd-journal
+    2140854 ?        00:00:01   ghc
+    2488884 ?        00:00:00   systemd
+    2488887 ?        00:00:00     (sd-pam)
+    2488926 ?        00:00:00     dbus-daemon
+    2488929 ?        00:00:00     gvfsd
+    2489614 ?        00:00:00   systemd
+    2489617 ?        00:00:00     (sd-pam)
+    2489657 ?        00:00:00     dbus-daemon
+    2489660 ?        00:00:00     gvfsd
+    2491184 ?        00:00:00   systemd
+    2491187 ?        00:00:00     (sd-pam)
+    2491336 ?        00:00:00     dbus-daemon
+    2491343 ?        00:00:00     gvfsd
+    2491239 ?        00:00:00   sh
+    2491251 ?        00:00:34     node
+    2491307 ?        00:00:20       node
+    2491480 pts/16   00:00:00         bash
+    2496076 pts/16   00:01:05           ocaml
+    2497508 pts/16   00:00:27           ocaml
+    2497796 pts/16   00:01:11           ocaml
+    2497913 pts/16   00:00:21           ocaml
+    2530608 pts/37   00:00:00         bash
+    2530854 pts/37   00:00:01           ocaml
+    2541982 pts/37   00:00:00           ocaml
+    2546231 pts/37   00:00:01           ocaml
+    2547795 pts/37   00:00:00           ocaml
+    2491386 ?        00:00:01       node
+    2530498 ?        00:00:17       node
+    2530509 ?        00:00:00       node
+    2494397 ?        00:00:00   systemd
+    2494401 ?        00:00:00     (sd-pam)
+    2494440 ?        00:00:00     dbus-daemon
+    2494443 ?        00:00:00     gvfsd
+    2495838 ?        00:00:00   systemd
+    2495841 ?        00:00:00     (sd-pam)
+    2495880 ?        00:00:00     dbus-daemon
+    2495883 ?        00:00:00     gvfsd
+    2500970 ?        00:00:00   systemd
+    2500973 ?        00:00:00     (sd-pam)
+    2501012 ?        00:00:00     dbus-daemon
+    2501015 ?        00:00:00     gvfsd
+    2522592 ?        00:00:00   sh
+    2522604 ?        00:00:34     node
+    2522652 ?        00:00:25       node
+    2522912 pts/31   00:00:01         bash
+    2559951 pts/31   00:00:00           ps
+    2524799 pts/23   00:00:00         bash
+    2522867 ?        00:00:00       node
+    2523890 ?        00:00:19       node
+    2523901 ?        00:00:00       node
+    2524736 ?        00:00:14       node
+    2533691 ?        00:00:00         node
+    2524747 ?        00:00:00       node
+    2525070 ?        00:00:00   systemd
+    2525074 ?        00:00:00     (sd-pam)
+    2525114 ?        00:00:00     dbus-daemon
+    2525118 ?        00:00:00     gvfsd
+    2533045 ?        00:00:00   systemd
+    2533047 ?        00:00:00     (sd-pam)
+    2533184 ?        00:00:00     dbus-daemon
+    2533191 ?        00:00:00     gvfsd
+    2533398 ?        00:00:00   systemd
+    2533400 ?        00:00:00     (sd-pam)
+    2533439 ?        00:00:00     dbus-daemon
+    2533442 ?        00:00:00     gvfsd
+    2533812 ?        00:00:00   systemd
+    2533815 ?        00:00:00     (sd-pam)
+    2533848 ?        00:00:00     dbus-daemon
+    2533851 ?        00:00:00     gvfsd
+    2535894 ?        00:00:00   systemd
+    2535897 ?        00:00:00     (sd-pam)
+    2535936 ?        00:00:00     dbus-daemon
+    2535939 ?        00:00:00     gvfsd
+    2539734 ?        00:00:00   systemd
+    2539737 ?        00:00:00     (sd-pam)
+    2539776 ?        00:00:00     dbus-daemon
+    2539779 ?        00:00:00     gvfsd
+    2541048 ?        00:00:00   systemd
+    2541053 ?        00:00:00     (sd-pam)
+    2541092 ?        00:00:00     dbus-daemon
+    2541095 ?        00:00:00     gvfsd
+    2542213 ?        00:00:00   systemd
+    2542215 ?        00:00:00     (sd-pam)
+    2542268 ?        00:00:00     dbus-daemon
+    2542271 ?        00:00:00     gvfsd
+    2546005 ?        00:00:00   systemd
+    2546008 ?        00:00:00     (sd-pam)
+    2546047 ?        00:00:00     dbus-daemon
+    2546050 ?        00:00:00     gvfsd
+    2548529 ?        00:00:00   systemd
+    2548536 ?        00:00:00     (sd-pam)
+    2548584 ?        00:00:00     dbus-daemon
+    2548587 ?        00:00:00     gvfsd
+    2549025 ?        00:00:00   systemd
+    2549029 ?        00:00:00     (sd-pam)
+    2549068 ?        00:00:00     dbus-daemon
+    2549071 ?        00:00:00     gvfsd
+    2550595 ?        00:00:00   systemd
+    2550610 ?        00:00:00     (sd-pam)
+    2550649 ?        00:00:00     dbus-daemon
+    2550652 ?        00:00:00     gvfsd
+    2550802 ?        00:00:00   systemd
+    2550806 ?        00:00:00     (sd-pam)
+    2550845 ?        00:00:00     dbus-daemon
+    2550848 ?        00:00:00     gvfsd
+    2553036 ?        00:00:00   systemd
+    2553043 ?        00:00:00     (sd-pam)
+    2553083 ?        00:00:00     dbus-daemon
+    2553086 ?        00:00:00     gvfsd
+    2553117 ?        00:00:00   systemd
+    2553120 ?        00:00:00     (sd-pam)
+    2553160 ?        00:00:00     dbus-daemon
+    2553163 ?        00:00:00     gvfsd
+    2555549 ?        00:00:00   systemd
+    2555553 ?        00:00:00     (sd-pam)
+    2555592 ?        00:00:00     dbus-daemon
+    2555595 ?        00:00:00     gvfsd
+    2557480 ?        00:00:00   systemd
+    2557483 ?        00:00:00     (sd-pam)
+    2557522 ?        00:00:00     dbus-daemon
+    2557525 ?        00:00:00     gvfsd
