@@ -1,0 +1,21 @@
+Exercise 2.1
+    (* (expt 2 (- 2607 1)) (expt 2 (- 2607 1)))
+    (+ (logb (* (expt 2 (- 607 1)) (- (expt 2 607) 1))) 1)
+    M-x calc 2 RET 607 RET 1 RET - ^ 2 RET 607 RET 1 RET - ^ *
+
+    When running c-h k c-h k, we see what the keybinding c-h k does. It allows us to 
+    examine how to use it and the lisp source code for the function "command describe-key". 
+    This occurs as the command itself is supposed to return this for any keybind that can be
+    executed. 
+
+    When running c-h k M-SPC, we get a buffer explaining what the command "just-one-space" does. 
+    The command deletes all of the white space around a point leaving just the text. 
+    We see what it is bound to and the lisp function "simple.el" that is the source code for
+    this function/keybinding. This comes up as the C-h k opens up a buffer describing 
+    what a key binding does, and you are asking it to describe M-SPC.
+
+    The general implementation of M-SPC is through the cycle-spacing command.
+
+Exercise 2.2
+    The M-x what-line function tells us what line our cursor is at in our current buffer.
+    
