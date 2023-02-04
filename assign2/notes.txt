@@ -1,21 +1,97 @@
 Exercise 2.1
-    (* (expt 2 (- 2607 1)) (expt 2 (- 2607 1)))
-    (+ (logb (* (expt 2 (- 607 1)) (- (expt 2 607) 1))) 1)
+    1. (* (expt 2 (- 2607 1)) (expt 2 (- 2607 1)))
+    2. (+ (logb (* (expt 2 (- 607 1)) (- (expt 2 607) 1))) 1)
+    
     M-x calc 2 RET 607 RET 1 RET - ^ 2 RET 607 RET 1 RET - ^ *
 
-    When running c-h k c-h k, we see what the keybinding c-h k does. It allows us to 
-    examine how to use it and the lisp source code for the function "command describe-key". 
-    This occurs as the command itself is supposed to return this for any keybind that can be
-    executed. 
+    3.  When running c-h k c-h k, we see what the keybinding c-h k does. It allows us to 
+        examine how to use it and the lisp source code for the function "command describe-key". 
+        This occurs as the command itself is supposed to return this for any keybind that can be
+        executed. 
 
-    When running c-h k M-SPC, we get a buffer explaining what the command "just-one-space" does. 
-    The command deletes all of the white space around a point leaving just the text. 
-    We see what it is bound to and the lisp function "simple.el" that is the source code for
-    this function/keybinding. This comes up as the C-h k opens up a buffer describing 
-    what a key binding does, and you are asking it to describe M-SPC.
+    4.  When running c-h k M-SPC, we get a buffer explaining what the command "just-one-space" does. 
+        The command M-SPC deletes all of the white space around a point leaving just the text. 
+        We see what it is bound to and the lisp function "simple.el" that is the source code for
+        this function/keybinding. This comes up as the C-h k opens up a buffer describing 
+        what a key binding does, and you are asking it to describe M-SPC.
 
-    The general implementation of M-SPC is through the cycle-spacing command.
+    5.  The general implementation of M-SPC is through the cycle-spacing command.
 
-Exercise 2.2
-    The M-x what-line function tells us what line our cursor is at in our current buffer.
+Homework:
+    1.  When randline.py is run with /dev/null : "IndexError: list index out of range" gets outputted.
+    2.  When invoked with python3, the error "SyntaxError: invalid syntax" is thrown since the exception works a little differently.
+    3.  When my shuf.py is invoked with python2, I get no errors. This is kind of odd since I was expecting some errors with different syntax.
     
+    4. Benchmarks:
+        /usr/local/cs/bin/shuf:
+            Run 1:
+                real    0m0.100s
+                user    0m0.074s
+                sys     0m0.027s
+            
+            Run 2:
+                real    0m0.098s
+                user    0m0.067s
+                sys     0m0.032s
+
+            Run 3:
+                real    0m0.098s
+                user    0m0.067s
+                sys     0m0.032s
+        
+            MEDIAN: 0m0.099s
+        
+        /usr/bin/python3
+            Run 1:
+                real    0m1.019s
+                user    0m0.952s
+                sys     0m0.062s
+
+            Run 3:
+                real    0m1.049s
+                user    0m0.978s
+                sys     0m0.062s
+            
+            Run 3:
+                real    0m1.027s
+                user    0m0.969s
+                sys     0m0.053s
+
+            MEDIAN: 0m1.022s
+
+        /usr/local/cs/bin/python3
+            Run 1: 
+                real    0m0.757s
+                user    0m0.676s
+                sys     0m0.059s
+
+            Run 2:
+                real    0m0.746s
+                user    0m0.666s
+                sys     0m0.067s
+
+            Run 3: 
+                real    0m0.763s
+                user    0m0.690s
+                sys     0m0.062s
+
+            MEDIAN: 0m0.735
+
+    Final Results of Benchmark:
+
+        CoreUtils MEDIAN: 0m0.099s
+        /usr/bin/python3 MEDIAN: 0m1.022s
+        /usr/local/cs/bin/python3: 0m0.735
+
+        These benchmarks make sense as the shuf in coreutls is the fastest as it is written in C, which compiles directly to machine language improving speed. 
+        Then Python 3.11 is the second fastest following Python 3.6.8.
+
+        CPU Version:
+            Architecture:        x86_64
+            CPU op-mode(s):      32-bit, 64-bit
+            Model:               85
+            Model name:          Intel(R) Xeon(R) Silver 4116 CPU @ 2.10GHz
+        
+        Operating System Version:
+            NAME="Red Hat Enterprise Linux"
+            VERSION="8.5 (Ootpa)"
