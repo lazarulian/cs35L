@@ -4,10 +4,6 @@
 
 `Professor: Paul Eggert`
 
-&nbsp;
-&nbsp;
-&nbsp;
-
 ## Introduction
 
 ---
