@@ -24,8 +24,6 @@
 
 ## Tree Structure
 
----
-
 - The model popularized by Unix and Linux.
 - **Directory**: file that maps \*file name **components\*** to files; they are literally just look-up tables.
 - **Regular files**: byte sequences (can be read from or written to, unlike directories).
@@ -64,8 +62,6 @@ $ ls -idl /
 
 ## Linux Filesystems
 
----
-
 It's not _actually_ a tree, but it still does not have loops - it's a **directed acyclic graph (DAG)**. They achieved this with the notion of **hard links**, which are like aliases for the same file in memory. The iron-clad rule is that hard links _must not point to directories_.
 
 ```console
@@ -85,6 +81,8 @@ sdafkjdhsajsadhgklsda '['
 
 ### Data Structure Representations
 
+---
+
 A directory is really just a _mapping_ of the file names components to the inodes (via inode numbers) in the filesystem tree.
 
 You can visualize the filesystem as a graph of nodes representing file objects in memory but the file name components along the _edges_ of the graph.
@@ -99,8 +97,6 @@ The filesystem is not a tree, but there are some limitations enforced:
 &nbsp;
 
 ## Hard Links
-
----
 
 ```bash
 ln a b # create a file named b that's the same as the file already named a
@@ -127,8 +123,6 @@ foo
 
 ## Soft Links
 
----
-
 - **Soft link (symbolic links)** on the other hand are actual separate data structures that have content (the string that is interpreted as the path to their target)
   - A hard link only contributes to the directory size (expands the mapping by one entry). The underlying file remains unchanged.
 - Symbolic links can also point to nowhere called **dangling**
@@ -154,6 +148,8 @@ linkname: No such file or directory
 - A symbolic link can become dangling if the underlying file is deleted.
 
 ### Destroying a File
+
+---
 
 - You can use the "remove" command:
 
@@ -255,8 +251,6 @@ shred foo # Overwriting the content of a file with random junk:
 
 ## The `mv` Command
 
----
-
 You can use the "move" command to rename and/or move a file.
 
 ```bash
@@ -275,8 +269,6 @@ mov foo.c bar  # if bar's a directory, it becomes bar/foo.c
 &nbsp;
 
 ## File Permissions
-
----
 
 When you run something like `ls -l` you see that the first column has a sequence of characters represented like:
 
@@ -305,6 +297,8 @@ $ ls -lai /bin/sudo
 
 ### Sensible Permissions
 
+---
+
 - A set of rwx permissions on a file is called "**sensible**" if the owner has al the permissions of the group and the group has all the permission of others
   - 551 (r-x|r-x|--x) is sensible. The owner's permissions are a _superset_ of those of the group.
   - 467 (r--|rw-|rwx) is not. The group has `w` permission while the owner doesn't.
@@ -315,8 +309,6 @@ $ ls -lai /bin/sudo
 &nbsp;
 
 ## So How Do You _Actually_ Update a File?
-
----
 
 Options:
 
