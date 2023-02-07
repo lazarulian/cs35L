@@ -6,8 +6,6 @@
 
 ## Introduction
 
----
-
 The following repository contains all of the work and notes that I have compiled for CS35L when I took it in Winter 2023. All of the assignments are in their respective categories and all of the notes are markdwon files in the `notes/` directory. I hope the following information is helpful, and if you liked the content, feel free to give the repo a star!
 
 &nbsp;

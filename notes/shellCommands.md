@@ -10,7 +10,6 @@
     - [Command Arguments](#command-arguments)
   - [Running Multiple Commands](#running-multiple-commands)
     - [Commands in Sequence](#commands-in-sequence)
-  - [Basic Shell Commands](#basic-shell-commands)
     - [Special Characters of the Shell](#special-characters-of-the-shell)
   - [Control Structures](#control-structures)
     - [If and Else](#if-and-else)
@@ -67,12 +66,6 @@ word0, word1, ..., wordn # word0 is the name of the program and word1, ...,
 - `|` is the pipeline character which pipelines the output of one command as the input to another, and the pipe is a buffer
   - the pipe really depends on the read and write priviledges of the command
   - allows you to set up a sequence of little languages that each process or transform a single stream of text output as it makes its way into some final form.
-
-## Basic Shell Commands
-
-```bash
-ps -ef | grep google  # lists the processes within the current filesystem and searches google
-```
 
 ### Special Characters of the Shell
 
