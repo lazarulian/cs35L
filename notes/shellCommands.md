@@ -17,6 +17,13 @@
   - [Looping](#looping)
   - [Globbing](#globbing)
   - [Phases of the Shell](#phases-of-the-shell)
+    - [1. Variable Expansion](#1-variable-expansion)
+    - [2. Tilde Expansion](#2-tilde-expansion)
+    - [3. Command Substitution](#3-command-substitution)
+    - [4. Arithmetic Expansion](#4-arithmetic-expansion)
+    - [5. Field Splitting](#5-field-splitting)
+    - [6. Filename Expansion (Globbing)](#6-filename-expansion-globbing)
+    - [7. Redirection](#7-redirection)
 
 ## General Commands
 
@@ -65,7 +72,8 @@ word0, word1, ..., wordn # word0 is the name of the program and word1, ...,
 - `&` is the parralellization operator which signifies that the command after that character will run in parallel
 - `|` is the pipeline character which pipelines the output of one command as the input to another, and the pipe is a buffer
   - the pipe really depends on the read and write priviledges of the command
-  - allows you to set up a sequence of little languages that each process or transform a single stream of text output as it makes its way into some final form.
+  - allows you to set up a sequence of little languages that each process or transform a single stream of text output as it makes its way into some final form
+- `$?` outputs the exit status of the last command
 
 ### Special Characters of the Shell
 
@@ -82,6 +90,9 @@ word0, word1, ..., wordn # word0 is the name of the program and word1, ...,
 ```
 
 ## Control Structures
+
+- if, else, then, done are not reserved
+  - shell knows if it is a control structure is if it is at the start of the line or after a semicolon
 
 ### If and Else
 
@@ -137,80 +148,103 @@ done
 
 ---
 
+- glob is a shell expression like a regular expression for pattern matching done by the shell
+  - ordinary strings match themselves, and you can concatenate the blogs like regular expressions similar to regular expressions
 - The shell will expand strings containing these special characters to every string that matches the pattern, separated by whitespaces
-  - For example, `\*` in a directory containing files named `file1, file2, and file3` would expand to:
 - This process is done by the shell and not the programs typically associated with the shell that provide the abstraction to the kernel/os
 
 ```bash
-*           # any number of characters (does not match leading . as it messes with directory)
-?           # any single character
-[ ]         # matches a single character within a set, very similar to regEX but negation is ! not ^
-{pdf,jpeg}  # - match multiple literals
-[!]         # complement of a character set if ! is the first character
-\           # escape character
+* (regex .*)         # any number of characters (does not match leading . as it messes with the directory)
+? (regex *)          # any single character
+[ ]                  # matches a single character within a set, very similar to regEX but negation is ! not ^
+{pdf,jpeg}           # - match multiple literals
+[!]                  # complement of a character set if ! is the first character
+\                    # escape character
 ```
 
 `grep xyz *.c *-h-*`: &nbsp; matches all of the -h- expressions
 
 ## Phases of the Shell
 
-1. Variable Expansion
+### 1. Variable Expansion
+
+---
+
+- **Variable expansion** expands a shell variable name to the actual value of the variable.
+- `echo $x` where `(x=$cheeks)` will expand `$x` to `cheeks`
+- `$#` expands to the number of arguments `$1 $2 $3`
+- `echo ${x}y` outputs the value of x, immediately followed by the char 'y'
+- `${x-default}` outputs the value of x if x is empty string, otherwise expands to `default`
+- `${x:-default}` outputs the value of x if x is nonempty, otherwise expands to `default`
+- `{x+set}` expands to set if x is set otherwise expands to empty string
+- `${x-nonempty}` expands to the string nonempty if x is nonempty
+- `${x?}` expands to x if x is set otherwise throws and error
+- `${PATH?}` expands to path if the path is set, otherwise throw an error
+- `${x=default}` sets x to default if x is not set
+- `set a b c xyz` sets a list of arguments
+  - `echo $4` -> output: xyz
+- `unset xyz` will uninitialized a variable
+- `export x` makes the variable visible to subcommands and subprocesses
+
+Every process in the system has a number. `$$` expands to the process ID of the shell itself.
+
+- `$!` the last process that your shell started in the background
+- `$&` makes the shell run the process in the background
+- `kill -9` is a kill signal that cannot be ignored
+- `$PATH` expands to path
+- `$HOME` expands to home
+- `$PWD` expands to parent working directory
+
+### 2. Tilde Expansion
+
+---
+
+- `~` expands the home directory when the variable calls
+  - if `x = ~ashah`, then `echo $x` outputs `/home/ashah`
+
+### 3. Command Substitution
+
+---
+
+- `$(abcd)` will stop the shell, run the command, takes the output, and splices into the command we ran before
+  - `grep ABC $(find * -name '*c')` runs grep ABC on all files outputted with the find command
+
+### 4. Arithmetic Expansion
+
+---
+
+- `$((x+5))` will expand variables to do arithmetic (slow way to do it)
+  - looks up the value of x, then adds 5 to it and then expands to 32
+
+### 5. Field Splitting
+
+---
+
+- the shell takes the stuff that we have already done and breaks the command that we have done into further pieces
 
 ```bash
-${x+set} # expands to set if x has variable otherwise empty string
-${x - nonempty} # expands to the string nonempty if x is nonempty
-${x?} # expands to x otherwise throws and error
-$ echo ${PATH?} # crash shell script if you dont have path
-${x=default} # sets x to default if x is not set
-
-# all of these work with : and ?
-
-
-# set can be used to change the arguments to your command
-
-set {args}
-unset x
-export x
-
-
-$$ # is the shell
-$! # is the pid of the last background process that your shell
-
-kill $sleep
-ps -ef | grep sleep
-```
-
-2. Tilde Expansion
-
-```bash
-# The Tilde will Turn into the Home Directory when $CALLS IT
-x = ~
-echo $x (tilde turns into /home/eggert)
-```
-
-3. Command Substitution
-
-```bash
-$(a b c d)
-
-# shell stops, runs commands, then splices into the command we just ran
-```
-
-4. Arithmetic Expansion
-
-```bash
-$((x+5)) # will expand variables to do arithmetic (slow way to do it)
-```
-
-5. Field Splitting
-
-```bash
-x = 'a b c *c'
+x = 'a b c *.c'
 grep foo $x         # same argument
-grep foo 'a b c *c' # same argument
-grep foo a b c *c   # turns the space separated word into separate arguments
-                    # a b c are separate arguments
+grep foo a b c *.c   # same but variable expansion
+grep foo a b c *.c   # turns the space-separated word into separate arguments
+
 ```
 
-6. Filename Expansion
-7. Redirection
+- IFS - inter-field separators (space, newline, and tab) are argument separators
+  - important for field splitting spaces for arguments
+
+### 6. Filename Expansion (Globbing)
+
+---
+
+- expand all of the globs
+
+### 7. Redirection
+
+---
+
+- `>f` writes output into `f`
+- `>>f` appends output to `f`
+- `2>&1` directs both standard output (file descriptor 1) and standard error (file descriptor 2)
+- `2<&` redirect standard input 2
+- `&>>word` appends standard output and standard error
