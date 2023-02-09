@@ -4,7 +4,8 @@
 
 - [Files and Filesystems](#files-and-filesystems)
   - [Table of Contents](#table-of-contents)
-  - [Tree Structure](#tree-structure)
+  - [Hierarchial File Systems](#hierarchial-file-systems)
+  - [Tree Structuring](#tree-structuring)
   - [Linux Filesystems](#linux-filesystems)
     - [Data Structure Representations](#data-structure-representations)
   - [Hard Links](#hard-links)
@@ -17,12 +18,30 @@
   - [File Permissions](#file-permissions)
     - [Sensible Permissions](#sensible-permissions)
   - [So How Do You _Actually_ Update a File?](#so-how-do-you-actually-update-a-file)
+  - [Navigating Through the File System](#navigating-through-the-file-system)
+    - [File Names](#file-names)
+    - [Directory](#directory)
+    - [How does NAME(i) Work - Happens for Every Program](#how-does-namei-work---happens-for-every-program)
 
 &nbsp;
 &nbsp;
 &nbsp;
 
-## Tree Structure
+## Hierarchial File Systems
+
+- the benefits of the hierarchical file system is that it is straightforward and easy to draw parallels to storing things within the real world
+  - for small scale tasks this is beneficial since you do not need to maintain duplicates
+  - these do not scale because it is rare to need to search a collection of things in only one way
+- when organizing in a hierarchy you must select one single truth path that you follow every time
+  - imagine searching for a book, will you organize it by author, title, year, etc..
+- hierarchical systems also require reorganization for maintainability as the system changes
+  - causes breaking since the full path is where the file is in the hierarchy
+
+&nbsp;
+&nbsp;
+&nbsp;
+
+## Tree Structuring
 
 - The model popularized by Unix and Linux.
 - **Directory**: file that maps \*file name **components\*** to files; they are literally just look-up tables.
@@ -116,6 +135,7 @@ foo
 
 - Hard links work because a directory is simply a _mapping_ of file name components to files
   - The file names are different, and there's no rule saying different keys can't map to the same value, so everything is consistent with what the definition of a directory.
+  - All of the hardlinks point to the same hardnode and deleting one hard link just decrements the link count
 
 &nbsp;
 &nbsp;
@@ -125,11 +145,14 @@ foo
 
 - **Soft link (symbolic links)** on the other hand are actual separate data structures that have content (the string that is interpreted as the path to their target)
   - A hard link only contributes to the directory size (expands the mapping by one entry). The underlying file remains unchanged.
+  - You can delete soft links without affecting the actual file as the inode of the linked file is different from the inode of the symlink
 - Symbolic links can also point to nowhere called **dangling**
   - When using such a pointer, the OS will try to resolve the existing path that's saved as the content of its file, but if that file no longer exists, then you get the error:
 
 ```bash
 linkname: No such file or directory
+
+ln -s <source> <linkname>   # actually creating a symbolic link
 ```
 
 - A symbolic link is always interpreted _when you use it_, NOT when you create it
@@ -146,6 +169,8 @@ linkname: No such file or directory
 - Deleting all hard links to a file (and ceasing all operations that use the file) deletes the file
 - Deleting symbolic links do not affect the underlying file
 - A symbolic link can become dangling if the underlying file is deleted.
+
+![Linking](https://miro.medium.com/max/640/1*u7HhTpzlyUlcK_fNPwKVqQ.webp)
 
 ### Destroying a File
 
@@ -232,9 +257,9 @@ $ ls -li /bin       # Sym Link to Directory
 filename: Too many levels of symbolic links
 ```
 
-- **Symbolic links to hard links?** Yes.
-- **Hard links to symbolic links?** Yes.
-  - the hard link can point to a different file than the symbolic link that it points to because if the symbolic link breaks, the hard link will still point to the original file (inode) while the symlink's path might change
+- **Symbolic links to hard links?** Yes. (Separate inode)
+- **Hard links to symbolic links?** Yes. (Hard Link shares inode with sym link, not the file the sym link points to)
+- the hard link can point to a different file than the symbolic link that it points to because if the symbolic link breaks, the hard link will still point to the original file (inode) while the symlink's path might change
 
 <!-- This was originally part of the midterm review in week4.md. -->
 
@@ -314,3 +339,35 @@ Options:
 
 1. Write directly to a file `F`. But if some other program reads the file at the same time, problems could arise. You want to be able to update files (and databases) **atomically**.
 2. Write to a temporary file `F#` and then `mv F# F`. The downside obviously is that it occupies twice the space on drive. The upside is that because `mv` is **atomic**, any other processes attempting to use the file at the same time will either get the old file or the new file, not some intermediate state.
+
+&nbsp;
+&nbsp;
+&nbsp;
+
+## Navigating Through the File System
+
+### File Names
+
+---
+
+- there can be no slashes or no null characters
+- the file name component is something that you look up within the directory
+
+### Directory
+
+---
+
+- a table of filename components or pointers to files
+  - the pointers are large integers
+
+### How does NAME(i) Work - Happens for Every Program
+
+---
+
+- start at the beginning of the file name _f_
+- looks at the first character of _f_ and considers whether it is / or something else
+  - if it is / that means it is an absolute link → which allows for it to start at the root directory
+  - otherwise, it will start at the working directory
+- we walk through the name from left to right and then whenever we see a filename component, we look up that file in the directory that p is currently pointing at
+  - p changes as we go through the name (follow the pointers of the names that we find as we go through the filename)
+- if we encounter a symbolic link, we have to splice and substitute with the contents of the symlink rather keeping the original name of the symbolic link
