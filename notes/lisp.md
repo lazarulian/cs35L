@@ -134,9 +134,9 @@ Emacs uses the same notation for programs and data. In other words, we use **dat
 
 ---
 
-- `defvar x 5` `defvar y 5` define and set a variable
+- `(defvar x 5)` `(defvar y 5)` define and set a variable
 
-- `setq x 5` `setq y 5` Set the value of an existing variable
+- `(setq x 5)` `(setq y 5)` Set the value of an existing variable
 
 ```lisp
 (let ((a 1) (b 2)) ; local binding within the body
@@ -187,6 +187,13 @@ Emacs uses the same notation for programs and data. In other words, we use **dat
   ; ((1 2 3 4) 5 6 7 8)
   ```
 
+- `(forward-char x)` moves x characters forward at cursor position
+- `(other-buffer)`
+- `(current-buffer)`
+- `(point-min)` function with 0 arguments
+- `(point-max)`
+- `(count-lines beginning end)`
+
 ### Control Flow
 
 ---
@@ -201,6 +208,9 @@ Emacs uses the same notation for programs and data. In other words, we use **dat
 
 - `(if 0 (cons 3 5)(cons 4 7))` if `0` is nill evaluate `(cons 3 5)` else evaluate`(cons 4 7)`
   - useful as it is cheaper than a function call
+- `(let((arg1 arg2) (arg3 arg4)) command)` goes through each pair until non-nil, and returns the corresponding item to the command
+- `(and arg1 arg2)` evaluates from left to right, if one of the values evaluates to nil, it will return nil. Otherwise returns last item
+- `(or arg1 arg2)` finds the first non-nil argument and returns that value
 
 ### Functions
 
