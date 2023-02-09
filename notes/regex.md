@@ -12,9 +12,6 @@
       - [Special Characters in Quoting for the Shell](#special-characters-in-quoting-for-the-shell)
     - [Extended Regular Expressions](#extended-regular-expressions)
     - [Examples](#examples)
-  - [ps (processes)](#ps-processes)
-  - [chmod (permissions)](#chmod-permissions)
-  - [wc (word count)](#wc-word-count)
 
 ## Introduction
 
@@ -170,93 +167,6 @@ P{3;}       # 3 to infinity instances of P
 ['\''"'\']      # would fail, as it does not evaluate the set rather the expression literal [\"']
 '[a-zA-Z0-9]+'          # at least 1 alphanumeric character
 '\\"([^"\]|\\.)*\\"'    # \"(something)\", where (something) is . OR neither " or \
-```
-
-&nbsp;
-&nbsp;
-&nbsp;
-
-## ps (processes)
-
----
-
-```bash
-ps -efH
-```
-
-- `e` selects all processes
-- `f` full format listing
-- `H` shows process hierarchy
-
-&nbsp;
-&nbsp;
-&nbsp;
-
-## chmod (permissions)
-
----
-
-- can take arguments in either octal or alphanumeric form
-- you can `add +`, `delete -`, or `set =`
-
-```bash
-NAME
-       chmod - change file mode bits
-
-SYNOPSIS
-       chmod [OPTION]... MODE[,MODE]... FILE...
-       chmod [OPTION]... OCTAL-MODE FILE...
-
-OCTAL NOTATION
-
-Execute - 1
-Read    - 4
-Write   - 2
-```
-
-- `chmod 755 readme.md` would give RWX-RX-RX
-- `chmod 655 readme.md` would give RW-RX-RX
-- `chmod 7-5-1 readme.md` would give RWX-RX-X
-- `chmod a+x,u-r file1.txt file2.py` would give X-R-
-
-&nbsp;
-&nbsp;
-&nbsp;
-
-## wc (word count)
-
----
-
-```bash
-NAME
-       wc - print newline, word, and byte counts for each file
-
-SYNOPSIS
-       wc [OPTION]... [FILE]...
-       wc [OPTION]... --files0-from=F
-
-DESCRIPTION
-       Print  newline,  word, and byte counts for each FILE, and a total line if
-       more than one FILE is specified.  A word is a non-zero-length sequence of
-       characters delimited by white space.
-
-       With no FILE, or when FILE is -, read standard input.
-
-       The  options below may be used to select which counts are printed, always
-       in the following order: newline,  word,  character,  byte,  maximum  line
-       length.
-
-       -c, --bytes
-              print the byte counts
-
-       -m, --chars
-              print the character counts
-
-       -l, --lines
-              print the newline counts
-
-       -w, --words
-              print the word counts
 ```
 
 &nbsp;
