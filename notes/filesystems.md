@@ -135,7 +135,8 @@ foo
 
 - Hard links work because a directory is simply a _mapping_ of file name components to files
   - The file names are different, and there's no rule saying different keys can't map to the same value, so everything is consistent with what the definition of a directory.
-  - All of the hardlinks point to the same hardnode and deleting one hard link just decrements the link count
+  - All of the hardlinks point to the same inode and deleting one hard link just decrements the link count
+  - A hard link to a symbolic link will resolve the symbolic link and point to the same inode as where the symbolic link points to
 
 &nbsp;
 &nbsp;
@@ -155,7 +156,7 @@ linkname: No such file or directory
 ln -s <source> <linkname>   # actually creating a symbolic link
 ```
 
-- A symbolic link is always interpreted _when you use it_, NOT when you create it
+- A symbolic link is always interpreted _when you use it_, NOT when you create it so you can have an error later
 - If a dangling symlink is pointing to a non-existent `foo`, but then you create a new file `foo`, the symlink works again.
 
 ### Midterm Review Session

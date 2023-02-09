@@ -130,6 +130,7 @@ grep actually uses Basic regular expressions (BREs), a simpler form of the more 
 1. `\` encase all things in a backslash. `\[\'\"\\\]`
 2. `'` encase all things in single quote, escape single quote `'['\''"\\]'` or `'['\''"\]'`
 3. `"` encase all things in double quote, escape double quote `"['"\""\\]"` or `"['\"\\]"`
+   - You must `\\` when you put things in shell commands because, shell evaluates stuff, then the mini languages
 
 ### Extended Regular Expressions
 
