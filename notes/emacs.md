@@ -37,7 +37,7 @@
 
 ---
 
-Emacs is built in "layers": it has a C interpreter inside it, and atop it is a Lisp interpreter. The bulk of Emacs is written in Lisp.
+- Emacs is built in "layers": it has a C interpreter inside it, and atop it is a Lisp interpreter. The bulk of Emacs is written in Lisp which extends emacs.
 
 ```bash
 +------------------+
