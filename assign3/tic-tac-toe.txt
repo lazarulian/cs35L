@@ -1,0 +1,34 @@
+In order to do the tic-tac-toe intro project I started with the following setup. 
+
+Setup:
+downloaded npm - search "install npm" on your favorite search engine and follow the steps
+forked the code pen linked on react's website
+ran the following command to install the packages that were required
+    npm install
+ran the app to start the live preview
+    npm start --dev
+
+Adding Functionality:
+The first thing I did was added content to the button element that would represent a space on the board.
+Then, I implemented the board layout by organizing 3 button elements into three separate rows that have been styled in the started css.
+Rather than having static values, I added the implementation of the component Square which allows passing in values to the button dynamically. It would return a button element.
+The next step was to add reactivity so I added functionality of clicking to the button in the square component by using the expression onClick={action}.
+Since I wanted to dynamically change the value, I used a useState hook to store the value of the square.
+    const [value, setValue] = useState(null). This allows for stateful control over the value. 
+Now that we have this state control, I implemented the function handleClick that would handle the changing of value of the square to 'X' when clicked on.
+To control the states of the squares and other features of the board like checking for winning or checking if a move would be valid, we needed to abstract square a level higher and lift the overall state up. This was accomplished using the function Board.
+I set up a useState hook that would capture the elements in the board and what their values are at the current state. This would allow to track winning and other metrics. 
+Since we have abstracted some of the features of Square to the Board, we need to pass in the handle click function to the square as a prop. 
+Each time the square is interacted with, it will update the state of board. 
+For the actual handleClicking, we need to ensure it is only called on interaction rather then on render so we use the following syntax to accomplish that.
+    onSquareClick={() => handleClick()} which represents calling the function on interaction
+To implement turns, I created another state called xIsNext to track which player's turn it is and changed the value that would be placed based on that state.
+Now that we have the board with X's and O's we need to ensure that we can calculate if the game is done so I created the function calculateWinner based off of the snippet that the tutorial gave us. 
+Every time we check for a new turn placement, if the board space is taken or the game is won, we will return so that the click is not handeled. 
+I also check for a win to ensure that it states at the top that the game is won.
+To implement the history, we need to save the state of the game every move that is played by each player, thus it might be beneficial to lift the state up again.
+I embed the board function that we have finished and place it in our lifted state called Game. I move the turn state to the game rather than keep it in the board and also create another state called history that will keep track of the historical states in the game.
+Each time the game is played, the handlePlay function will go and add the state to the history state so that we can pull from it in the future. 
+To actually display the moves, we have to map the history additions to an unordered list with the move number passed in as a prop
+Now to go back to the actual state, we need to create another useState called currentMove so that we can set the current state of the board when we setCurrent move based on the historical moves that we have tracked.
+Based on this state, we can create a variable currentSquares that will set the board accordingly when the history is called from the button

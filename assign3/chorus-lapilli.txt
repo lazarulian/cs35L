@@ -1,0 +1,79 @@
+Setup:
+downloaded npm - search "install npm" on your favorite search engine and follow the steps
+forked the code pen linked on react's website (https://beta.reactjs.org/learn/tutorial-tic-tac-toe#setup-for-the-tutorial)
+ran the following command to install the packages that were required
+    npm install
+ran the app to start the live preview
+    npm start --dev
+
+INITIAL TIC-TAC-TOE Implementation - Same as Tic-Tac-Toe.txt
+The first thing I did was added content to the button element that would represent a space on the board.
+Then, I implemented the board layout by organizing 3 button elements into three separate rows that have been styled in the started css.
+Rather than having static values, I added the implementation of the component Square which allows passing in values to the button dynamically. It would return a button element.
+The next step was to add reactivity so I added functionality of clicking to the button in the square component by using the expression onClick={action}.
+Since I wanted to dynamically change the value, I used a useState hook to store the value of the square.
+    const [value, setValue] = useState(null). This allows for stateful control over the value. 
+
+Now that we have this state control, I implemented the function handleClick that would handle the changing of value of the square to 'X' when clicked on.
+To control the states of the squares and other features of the board like checking for winning or checking if a move would be valid, we needed to abstract square a level higher and lift the overall state up. This was accomplished using the function Board.
+I set up a useState hook that would capture the elements in the board and what their values are at the current state. This would allow to track winning and other metrics. 
+Since we have abstracted some of the features of Square to the Board, we need to pass in the handle click function to the square as a prop. 
+Each time the square is interacted with, it will update the state of board. 
+
+For the actual handleClicking, we need to ensure it is only called on interaction rather then on render so we use the following syntax to accomplish that.
+    onSquareClick={() => handleClick()} which represents calling the function on interaction
+
+To implement turns, I created another state called xIsNext to track which player's turn it is and changed the value that would be placed based on that state.
+Now that we have the board with X's and O's we need to ensure that we can calculate if the game is done so I created the function calculateWinner based off of the snippet that the tutorial gave us. 
+Every time we check for a new turn placement, if the board space is taken or the game is won, we will return so that the click is not handeled. 
+I also check for a win to ensure that it states at the top that the game is won.
+
+Modifications for Chorus Lapilli:
+
+Since the first 6 moves of the game are identical to tic-tac-toe, it is important to keep track of the game moves so that we can switch to a different logic when we hit 6+ moves. 
+I created a useState called counter to keep track of the moves in the game and added an if/else statement in handleClick to change logic if the counter was greater than and less than 6.
+If it was less than 6, we update squares, counter, and xIsNext normally, otherwise we had to implement the logic of the modified tic-tac-toe in the else.
+
+Now for the chorus lapilli logic, we needed a way to understand how we are going to move the pieces so it was important to implement a state that will go ahead supply whether the click is the first one or the second one.
+The first click is used to select the piece to move and the second click denotes where you want to place the piece on the board.
+
+The control flow now has an option to denote whether the player is in the first or the second move. 
+If they are in the first move, we ensure that they are moving their own piece using the xIsNext state and also ensure that no one has won. Then we set the piece we want to move to null.
+On the second click, we check whether there is a piece in the center that needs to be moved and return if it has not been moved or the player did not win. 
+Furthermore, if the move is a valid move, we then go ahead and place the piece and set the previous board piece to null.
+
+The only piece of logic that is missing is ensuring that the piece movement is valid and a player is not moving the piece across the entire board. To do that, we create the function called validMove.
+ValidMove implements ensuring that the starting position and ending position only are one space apart, horizontally, or vertically, and do not clash with other current placements.
+After all of this, we update all of the states that we modified such as the board, firstclick, and the previous click (that informs the location of the square.)
+Before all of the moves, we ensured that the game has not been won.
+
+NPM Pack Log:
+npm notice 
+npm notice 📦  chorus-lapilli@0.1.0
+npm notice === Tarball Contents === 
+npm notice 3.4kB README.md             
+npm notice 817B  package.json          
+npm notice 3.9kB public/favicon.ico    
+npm notice 1.7kB public/index.html     
+npm notice 5.3kB public/logo192.png    
+npm notice 9.7kB public/logo512.png    
+npm notice 492B  public/manifest.json  
+npm notice 67B   public/robots.txt     
+npm notice 4.1kB src/App.js            
+npm notice 246B  src/App.test.js       
+npm notice 257B  src/index.js          
+npm notice 2.6kB src/logo.svg          
+npm notice 362B  src/reportWebVitals.js
+npm notice 241B  src/setupTests.js     
+npm notice 960B  src/styles.css        
+npm notice === Tarball Details === 
+npm notice name:          chorus-lapilli                          
+npm notice version:       0.1.0                                   
+npm notice filename:      chorus-lapilli-0.1.0.tgz                
+npm notice package size:  25.6 kB                                 
+npm notice unpacked size: 34.2 kB                                 
+npm notice shasum:        0555fa32c716acaba5227bb9ec91f074101188c5
+npm notice integrity:     sha512-eJKnlmtLE/r1l[...]GDVmiMyKFblYg==
+npm notice total files:   15                                      
+npm notice 
+chorus-lapilli-0.1.0.tgz
