@@ -1,3 +1,7 @@
+-----------------------------------------
+SECTION 1: CHANGES TO IMPLEMENT THE App
+-----------------------------------------
+
 Setup:
 downloaded npm - search "install npm" on your favorite search engine and follow the steps
 forked the code pen linked on react's website (https://beta.reactjs.org/learn/tutorial-tic-tac-toe#setup-for-the-tutorial)
@@ -77,3 +81,21 @@ npm notice integrity:     sha512-eJKnlmtLE/r1l[...]GDVmiMyKFblYg==
 npm notice total files:   15                                      
 npm notice 
 chorus-lapilli-0.1.0.tgz
+
+
+-----------------------------------------
+SECTION 2: Interacting with the App
+-----------------------------------------
+
+To initialize the environment, unpack the tarball and run "npm i".
+npm start will launch the application within the browser.
+
+To place pieces down, merely click on the square that you would like to place the move on.
+
+Once the six initial turns are over, we can move around placed pieces in two clicks.
+    The first click should signify the piece that you would like to move. 
+    The second click should signify the position that you would like to move the selected piece to.
+
+    If for any reason, the placement is invalid such as moving onto another piece, moving another player's piece, or not moving a piece in the center position, the clicks will return and you will have to reselect the piece to move (click 1).
+
+When someone wins the game, the heading will display that a player has won rather than which player's turn it is.
