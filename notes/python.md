@@ -254,7 +254,18 @@ c = C()
 c.__dict__["m"] is c.m
 ```
 
-This is (probably) how **metaclasses** are implemented, which was not mentioned in lecture but is cool to know. They're basically classes that determine how other classes should be implemented.
+```python
+class SimpleNamespace:
+    def __init__(self, **kwargs):
+        self.__dict__.update(kwargs)
+    def __repr__(self):
+        keys = sorted(self.__dict__)
+        items = ("{}={!r}".format(k, self.__dict__[k]) for k in keys)
+        return "{}({})".format(type(self).__name__, ", ".join(items))
+```
+
+- above is a cool example of changing some of the namespaces
+- This is (probably) how **metaclasses** are implemented, which was not mentioned in lecture but is cool to know. They're basically classes that determine how other classes should be implemented.
 
 &nbsp;
 &nbsp;
@@ -312,7 +323,7 @@ Just as how [`PATH` instructs the shell program where to search for commands](Sh
 
 Determines the behavior of the `import` statement. Python will search through the sequence of paths, delimited by colons (Unix) or semicolons (Windows), to search for names of packages or modules to import. The path to the standard library is included in `PYTHONPATH` by default.
 
-Official documentation: https://docs.python.org/3/using/cmdline.html#envvar-PYTHONPATH.
+Official documentation: <https://docs.python.org/3/using/cmdline.html#envvar-PYTHONPATH>.
 
 This variable is stored in and can be modified programmatically with `sys.path`, which is a `list[str]` containing the individual string paths.
 

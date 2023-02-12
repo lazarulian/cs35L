@@ -21,8 +21,6 @@
 
 ## Competition: Stability & Performance - The Need for Emacs
 
----
-
 - apps should be fast, survive outages, survive kernel crashes, and be understandable
   - to solve all of these problems, we must use persistent storage, along with a cache of what is in the persistent storage, or a buffer of what is in the storage
 - emacs is useful as applications are at the mercy of networking, which are orders of magnitude slower than operations on a local file system.
@@ -35,11 +33,9 @@
 
 ## Implementation
 
----
+- Emacs is built in "layers": it has a C interpreter inside it, and atop it is a Lisp interpreter. The bulk of Emacs is written in Lisp which extends emacs.
 
-Emacs is built in "layers": it has a C interpreter inside it, and atop it is a Lisp interpreter. The bulk of Emacs is written in Lisp.
-
-```bash
+```
 +------------------+
 | Lisp code        |
 +------------------+
@@ -49,9 +45,9 @@ Emacs is built in "layers": it has a C interpreter inside it, and atop it is a L
 +------------------+
 ```
 
-The I/O devices like mouse, keyboard, and display communicate with the application through the Lisp code.
+- The I/O devices like mouse, keyboard, and display communicate with the application through the Lisp code.
 
-Programs typically have their own interpreters embedded in their own executables. For example, Chromium executables come with a JavaScript interpreter included in them.
+- Programs typically have their own interpreters embedded in their own executables. For example, Chromium executables come with a JavaScript interpreter included in them.
 
 &nbsp;
 &nbsp;
@@ -59,13 +55,13 @@ Programs typically have their own interpreters embedded in their own executables
 
 ## Concept of Buffers
 
----
-
 - Emacs makes use of **buffers** to be _fast_. Buffers are just a bunch of text that live in RAM.
 - Emacs (and editors in general) makes a clear distinction between what's _persistent_ and what's not to balance speed and reliability. For work that is rapidly changing like when you're typing a sentence, we have very performant buffers. Only when work is ready to be saved, the application can flush the buffer to the file system in one fell swoop.
 - Opening another window for the same buffer does not duplicate the buffer; any edits in one buffer will affect the other(s). You can still use this when you want to reference some other part of the buffer while typing in another region.
 
 ### Buffer-related Key Binds
+
+---
 
 ```bash
 (ctrl)-x (ctrl)-b                 # list buffers
@@ -84,8 +80,6 @@ Programs typically have their own interpreters embedded in their own executables
 
 ## Columns of Emacs
 
----
-
 1. Directory
 2. Hard Link Count
 3. Owner
@@ -101,8 +95,6 @@ Programs typically have their own interpreters embedded in their own executables
 &nbsp;
 
 ## Auto-generated Files
-
----
 
 - By convention, file names starting with `.#` indicate a symbolic link to a file that is currently being edited by another program.
 - When editing a file `F` in Emacs:
@@ -127,9 +119,9 @@ Programs typically have their own interpreters embedded in their own executables
 
 ## Basic Emacs Commands
 
----
-
 ### Fixing Mistakes
+
+---
 
 ```bash
 C-/             # Undo the last command (only if text was modified)
@@ -141,12 +133,9 @@ C-x C-c         # Exit Emacs
 C-z             # Temporarily suspend Emacs (enter fg to re-enter)
 ```
 
-&nbsp;
-&nbsp;
-&nbsp;
-
 ### Help System
 
+---
 The help system makes Emacs a "self-documenting" system. `C-h` is the designated **help key**, which prefixes commands related to viewing documentation.
 
 ```bash
@@ -162,6 +151,7 @@ M-x apropos RET <query> RET     # search for a command
 
 ### Shell within Emacs
 
+---
 Run a command as a separate, one-off shell process:
 
 ```bash
@@ -175,11 +165,9 @@ Same thing but taking input from a buffer and then piping it to the shell comman
 M-| <command> RET
 ```
 
-&nbsp;
-&nbsp;
-&nbsp;
-
 ### Selection Manipulation
+
+---
 
 Concept of the "current region (of current buffer)":
 
@@ -203,12 +191,14 @@ You can find out where your mark is with `C-x C-x`, which exchanges point and ma
 
 ### Text Manipulation
 
+---
+
 Emacs distinguishes **killing** from **deleting**. When you **kill** text, it is actually saved in a special buffer called the **kill ring**, and content in here can be reinserted (aka **yanked**) at the point. Most commands that perform bulk removal of text actually _kill_ the text, not _delete_ it.
 
 ```bash
 C-k       # kill from point to end of line
 C-w       # kill current selection
-M-w       # copy curernt selection
+M-w       # copy current selection
 C-y       # yank most recent kill
 M-y       # cycle the text to yank through kill history
 ```
@@ -219,6 +209,7 @@ M-y       # cycle the text to yank through kill history
 
 ### Modes
 
+---
 Emacs is a **modeful** editor. That means the current state of Emacs not only includes the contents of the current files being edited but also what way you intend to be using the editor next. A **mode** is like a method of interacting with the editor.
 
 - **Upside:** more efficient for experts
