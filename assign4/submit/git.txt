@@ -1,0 +1,8 @@
+When comparing my local copy of the git repository and the one located at ~eggert/src/github/git, I noticed that my repository only has one branch (master) while the one in ~eggert/src/github/git has the following branches:
+maint
+master
+next
+seen
+todo
+
+Furthermore, my directory has a later commit date than the one in the eggert repository.

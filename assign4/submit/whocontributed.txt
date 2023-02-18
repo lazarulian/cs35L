@@ -1,0 +1,7 @@
+To find the information about who created the line "Even newspaper reports present contradictory information" I followed a few steps that led me to the conclusion that it was Arthur David Olson.
+
+To find this, I used the command:
+    git log -G "Even newspaper reports present contradictory information."
+
+This gave a log of the entire git history of that line that was searched using regular expression. 
+Although Paul Eggert made some modifications, it was merely on formatting while Arthur David Olsen made the first edit of this phrase on December, 21, 1995.
