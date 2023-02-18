@@ -1,12 +1,11 @@
 To find the changes that resulted, I used git --grep "git merge-tree" to show the most recent log of changes that occured with that statement. 
 In the log, I searched for the changes that fixed the problem that was outlined in the spec and came to the following commit.
 
-Junio C Hamano: 19118cb8570e499e1a56e81740cee3d1c1206b44
-Merge: a215853545 92481d1b26
-Date:   Mon Oct 10 10:08:43 2022 -0700
+Johannes Schindelin: 0b55d930a69692c7f4e7b90e35fa41f6c46df4bc
+Date:   Wed Sep 28 07:29:21 2022 +0000
 
 Then, I compared the commit with the ancestor of theat commit to see the changes using the following command.
-git diff 19118cb8570e499e1a56e81740cee3d1c1206b44~ 19118cb8570e499e1a56e81740cee3d1c1206b44
+git diff 0b55d930a69692c7f4e7b90e35fa41f6c46df4bc~ 0b55d930a69692c7f4e7b90e35fa41f6c46df4bc
 
 First, when looking at the object that was created that initially caused the segmentation fault, the declaration changed from returning nothing (void) to returning an integer number when called.
 static int write_tree(struct object_id *result_oid,
