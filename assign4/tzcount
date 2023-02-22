@@ -1,5 +1,0 @@
-#!/usr/bin/env bash
-
-# git log --pretty=format:"%ci" 2012j..2022g | tr -s ' ' | cut -d ' ' -f 3 | sort -g | uniq -c | awk '{print $2" "$1}'
-
-tr -s ' ' | cut -d ' ' -f 3 | sort -g | uniq -c | awk '{print $2" "$1}'
