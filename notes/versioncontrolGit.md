@@ -1,5 +1,34 @@
 # Version Control with Git
 
+## Table of Contents
+
+- [Version Control with Git](#version-control-with-git)
+  - [Table of Contents](#table-of-contents)
+  - [Version Control and History](#version-control-and-history)
+  - [Control of Git](#control-of-git)
+  - [Getting Started](#getting-started)
+    - [Basic Information](#basic-information)
+    - [Basic Git Commands](#basic-git-commands)
+  - [Exploring the Log](#exploring-the-log)
+    - [Narrowing the Log](#narrowing-the-log)
+    - [Formatting the Log](#formatting-the-log)
+  - [Commit Messages](#commit-messages)
+  - [Making Changes](#making-changes)
+  - [Commits and Staging](#commits-and-staging)
+    - [Commit Options](#commit-options)
+    - [Changing Commits](#changing-commits)
+    - [Syncing Commits](#syncing-commits)
+  - [Viewing Status of a Repository](#viewing-status-of-a-repository)
+  - [Viewing Differences](#viewing-differences)
+  - [Configuring Git](#configuring-git)
+    - [The .gitignore File](#the-gitignore-file)
+    - [The .git/config File](#the-gitconfig-file)
+    - [The ~/.gitconfig File](#the-gitconfig-file-1)
+  - [Show a Commit](#show-a-commit)
+  - [Bisecting](#bisecting)
+    - [Starting a bisect in Git](#starting-a-bisect-in-git)
+    - [Edge Cases](#edge-cases)
+
 ## Version Control and History
 
 - there are often multiple versions of history that people want to tell, they usually do not agree
@@ -222,12 +251,14 @@ git clean -x
 
 ---
 
-Syncing your local repository with the remote one:
-
-```shell
-git fetch
-git pull  # effectively fetching + merging
-```
+- The upstream repository is where you cloned the downstream repo from
+  - the .git is the downstream repository
+  - Consider you want to sync the downstream changes to some changes that was made to the upstream repo, you would use git fetch
+- `git fetch` propogates the latest upstream repository within your downstream
+  - git has two versions where one is "main" (current working on) and one is "origin/main" (latest upstream)
+  - git fetch changes the repositories idea of what upstream is within the repository and effectively does not change your current state
+- `git pull` effectively fetching + copy it into your version of the repository
+  - if you make your own changes, there is a chance that you might collide with upstream causing issues when using this method
 
 &nbsp;
 &nbsp;
@@ -385,3 +416,37 @@ The ubiquitous `--pretty` option can be used here too for more verbose output:
 ```shell
 git show --pretty=fuller
 ```
+
+## Bisecting
+
+Suppose you have a linear piece of history where somewhere between a stable version and the most recent commit, something went wrong. You can think of this problem of finding the first faulty commit as partitioning the timeline into OK and NG ("not good") sections, hence *bisecting*.
+
+The timeline is "sorted" in that if you think of OK=0 and NG=1, the history will always be such that all NGs follow OKs.
+
+![Bisect](https://www.sumologic.com/wp-content/uploads/git-bisect-fig1.png)
+
+- This then becomes a classic *binary search* problem, where we can identify the first NG commit in O(logN) time.
+
+### Starting a bisect in Git
+
+---
+
+- `git bisect start HEAD v4.3`
+  - Then we tell Git to run your check script on each commit and use the exit status to determine if the commit is OK or NG
+- `git bisect run` input any shell command that tests your comamnd -> if it succeeds, it will continue, if it fails, it will stop and return that commit
+- `git bisect run make check` this command will basically keep running the bisect with your test cases and will then return the command once you are done
+  - the make check will recompile everything and then do the test, since the source code changes
+  - the make files might change and git will run whatever the changed makefile will be
+
+### Edge Cases
+
+---
+
+- `git bisect run timeout 100 make check` - will timeout after 100 seconds to ensure that you do not get caught in an infinate loop
+- `git bisect run -j make check` changes the bisection procedure to run in parallel
+- An edge case to consider is that a bug is fixed and then reintroduced, this might cause a lot of issues with the bisect
+
+Of course, this also introduces the problem that if your test cases are buggy, then you may get false alarms. If you know ahead of time that a commit, say `v3`, will produce unreliable test results, you can skip it with:
+
+```shell
+git bisect skip v3
