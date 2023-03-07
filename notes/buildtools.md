@@ -29,7 +29,7 @@ gcc x.o y.o z.o -o foo
 
 > Your goal as a software developer is to automate yourself out of a job. You constantly want to take the things that you're doing and automate it. **- Dr. Eggert, probably**
 
-## Make and Makefiless
+## Make and Makefiles
 
 - A simple build tool intended to be a level up from a shell script is **Make**.
   - motivated from scripts taking too long to execute
