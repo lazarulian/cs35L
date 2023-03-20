@@ -15,7 +15,7 @@ These special system calls include, at any point in execution:
 - Accessing memory
 - Accessing registers
 
-These do have security restrictions and cannot be used arbitrarily. These restrictions depend on the OS, but typically the rule is that the debugger must control a process with *same user ID*. Other OS may have a more restrictive rule, stating it can only debug a *child process*.
+These do have security restrictions and cannot be used arbitrarily. These restrictions depend on the OS, but typically the rule is that the debugger must control a process with _same user ID_. Other OS may have a more restrictive rule, stating it can only debug a _child process_.
 
 ## Getting Started with Debugging: GCC
 
@@ -72,7 +72,7 @@ Actually running the program. The arguments you supply after `run` are in shell 
 (gdb) run -u /etc/os-release - < /dev/null
 ```
 
-*Alternatively*, you can make GDB be in charge of another program using the PID of running process, effectively suspending it.
+_Alternatively_, you can make GDB be in charge of another program using the PID of running process, effectively suspending it.
 
 ```console
 (gdb) attach 986317

@@ -4,6 +4,9 @@
 
 - [Bash Implementation](#bash-implementation)
   - [Table of Contents](#table-of-contents)
+  - [Setting Path Variables](#setting-path-variables)
+  - [patch](#patch)
+  - [tr (replace)](#tr-replace)
   - [ps (processes)](#ps-processes)
   - [chmod (permissions)](#chmod-permissions)
   - [wc (word count)](#wc-word-count)
@@ -13,6 +16,45 @@
   - [SEQ](#seq)
   - [LN](#ln)
   - [LS](#ls)
+
+## Setting Path Variables
+
+- `export:` This command makes the variable available to child processes.
+- `PATH=:` This sets the value of the PATH variable to an empty string.
+- `$PATH::` This appends the current value of the PATH variable to the new value, with a colon separator. This ensures that any existing directories in the PATH are not lost.
+
+So, the command export `PATH=$PATH:/new/directory` adds /new/directory to the end of the PATH list, so that the shell will look for executables in this directory as well. This is useful when you have installed a new program that is not in the default system path.
+
+```
+Export PATH=/Desktop/new_cat:$PATH
+```
+
+- where new_cat has the new cat declaration
+
+## patch
+
+```bash
+PATCH
+NAME patch - apply a diff file to an original
+SYNOPSIS patch [options] [originalfile [patchfile]]
+        -d dir  or  --directory=dir
+        -i patchfile  or  --input=patchfile
+        -o outfile  or  --output=outfile
+```
+
+## tr (replace)
+
+```bash
+# Shift by 12 characters(A becomes M, and vice versa)
+echo ABCDE | tr '[A-Z]' '[M-ZA-L]'
+# Turns Back
+echo MNOPQ | tr '[M-ZA-L]' '[A-Z]'
+
+# Shift by 3 characters(A becomes D, and vice versa)
+echo ABCDE | tr '[A-Z]' '[M-ZABC]'
+# Turns Back
+echo MNOPQ | tr '[M-ZABC]' '[A-Z]'
+```
 
 ## ps (processes)
 

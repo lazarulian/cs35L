@@ -35,7 +35,7 @@ gcc x.o y.o z.o -o foo
   - motivated from scripts taking too long to execute
   - they were inefficient because they would compile the entire program even if only one file was edited, so it does a lot of unnecessary work
 - Thus, the essence of the **Makefile** is that you write a set of **recipes** in it, each of which instructing how to build a file
-  - When you run `make`, the program does the *minimum amount of work* necessary to build the file
+  - When you run `make`, the program does the _minimum amount of work_ necessary to build the file
   - It does this with the concept of **prerequisites**.
 - Make is a dynamic program that builds itself around the shell
 
@@ -45,7 +45,7 @@ Make is like a hybrid language. The `target: prerequisites` lines are its own "M
 
 ```makefile
 CC = gcc
-x.o: x.c
+x.o: x.c # prerequisites
   $(CC) -c x.c
 y.o: y.c
   $(CC) -c y.c
@@ -58,13 +58,13 @@ foo: x.o y.o z.o
 ```
 
 - makefile relies on the file timestamps and dependencies to see which files need to be rebuilt
-- the makefile looks at the timestamp of the output and the timestamps of its prerequisites,  to determine what files have changed since last run (last modified time of each file).
+- the makefile looks at the timestamp of the output and the timestamps of its prerequisites, to determine what files have changed since last run (last modified time of each file).
   - If a file is up-to-date, it doesn't need to touch it.
   - the timestamp can be an issue if the server times are not in sync
-- Often times, bugs arise from specifying the *dependencies* of the targets.
-  - A *missing* dependency means the product may be wrong. Make will falsely assume its job is done if it does not know if needs to act on a certain file.
-  - An *extraneous* dependency is a more benign mistake. Files are still compiled the same way as before, but it may cause Make to do extra work.
-- `cc $(OBJ) -o $@`  automatically replaces the `$@` by the thing you are trying to build
+- Often times, bugs arise from specifying the _dependencies_ of the targets.
+  - A _missing_ dependency means the product may be wrong. Make will falsely assume its job is done if it does not know if needs to act on a certain file.
+  - An _extraneous_ dependency is a more benign mistake. Files are still compiled the same way as before, but it may cause Make to do extra work.
+- `cc $(OBJ) -o $@` automatically replaces the `$@` by the thing you are trying to build
 
 ### Macros
 

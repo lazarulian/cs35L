@@ -5,6 +5,7 @@
 - [System Commands \& RegEx](#system-commands--regex)
   - [Table of Contents](#table-of-contents)
   - [Introduction](#introduction)
+  - [Special Characters you Must Escape](#special-characters-you-must-escape)
   - [Grep](#grep)
   - [Regular Expressions](#regular-expressions)
     - [Basic Regular Expressions](#basic-regular-expressions)
@@ -18,6 +19,24 @@
 ---
 
 When using the system and especially the abstractions of the shell, we do not want to hard code all of the small programs that we can use into the shell. That would make maintaining and adding programs difficult. Thus, in the usr/bin in path, we have a ton of small tools of the system that accomplish tasks really well. The components are then connected to make them fast, maintainable and well structured.
+
+&nbsp;
+&nbsp;
+&nbsp;
+
+## Special Characters you Must Escape
+
+- `$`
+- `\`
+- `^`
+- `*`
+- `.`
+- `[]`
+- `{}` (extended)
+- `+` (extended)
+- `()` (extended)
+- `|` (extended)
+- `?` (extended)
 
 &nbsp;
 &nbsp;

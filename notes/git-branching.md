@@ -7,7 +7,7 @@
   - [Branching in Git](#branching-in-git)
     - [Reasons for Branching](#reasons-for-branching)
     - [Details of Branching](#details-of-branching)
-    - [Branching Commands](#branching-commands)
+  - [Branching Commands](#branching-commands)
     - [Detached HEAD States](#detached-head-states)
   - [Patching Across Branches](#patching-across-branches)
   - [Merging in Git](#merging-in-git)
@@ -20,6 +20,8 @@
 
 ### Reasons for Branching
 
+---
+
 - A problem with doing a linear history, is it does not allow for parallelism
   - branches address this problem allow for people to change details of a larger codebase
   - a branch can be thought of as maintaining multiple alternate histories
@@ -28,17 +30,19 @@
 
 ### Details of Branching
 
+---
+
 - A branch is a lightweight movable pointer to a commit
   - the pointer can move to the start of the new commits as well
-- One branch, the "main"/"master" branch is typically reserved for *mainline development*.
-  - There may be other branches for things like *maintenance development*, *old releases*, *hot fixes*, etc.
+- One branch, the "main"/"master" branch is typically reserved for _mainline development_.
+  - There may be other branches for things like _maintenance development_, _old releases_, _hot fixes_, etc.
 
 ```bash
 git clone repo      # head point to the current commit
-git branch z100     # head points to current commit at z100 
-git add foo.c 
+git branch z100     # head points to current commit at z100
+git add foo.c
 git commit          # head points to commit at foo.c in z100 branch
-git add bar.c 
+git add bar.c
 git commit          # head points to commit at bar.c in z100 branch
 git checkout main   # head points to the first commit in the main branch
 git add bazz.c
@@ -48,7 +52,11 @@ git commit          # the main and head will point to first commit, origin/main 
 - in this example, origin/main is a read only copy of the upstream
   - you are meant to pull or fetch this and not edit this
 
-### Branching Commands
+&nbsp;
+&nbsp;
+&nbsp;
+
+## Branching Commands
 
 - `git branch -d branchname` deletes a branch (deletes the pointer to the branch)
 - `git branch -D branchname` force deletes a branch (still a pointer to the branch)
@@ -58,6 +66,8 @@ git commit          # the main and head will point to first commit, origin/main 
 - `git branch -m a b` moves branch a to the name b (just renaming)
 
 ### Detached HEAD States
+
+---
 
 - `git checkout REF` You can checkout to an arbitrary commit by ID/tag name
   - this puts you in **detached HEAD state**, which is when `HEAD` is not pointing to any branch tip
@@ -96,13 +106,17 @@ git commit -m "Make an emergency fix"
 - this type of technology allows for the version control system to operate in small changes and compressing repositories
   - they only store the changes in the code lines rather than the actual entire file changes
 - Attempting to apply a patch to a since edited version of a file may fail to work
-- It may still work if the changes to the original files does not *collide* with what the patch is attempting to change.
+- It may still work if the changes to the original files does not _collide_ with what the patch is attempting to change.
 - `diff` operates on **hunks**, batches of lines that represent a change. Patching goes through each hunk and applies the change. If the hunks do not match, then it will reject the change into an `rej` file, prompting you to fix it by hand.
 - `diff3 file1 file2 file3` compares three different files and checks for the differences of the three files
   - computes the difference between A&B and A&C and then it merges the two results
-  - A is the common ancestor of B and C, you can *basically* run diff on A&B and B&C and then runs it one last time to see the differences
+  - A is the common ancestor of B and C, you can _basically_ run diff on A&B and B&C and then runs it one last time to see the differences
   - git merge works the same way when there are colliding changes to the file
 - **NOTE:** The output of `diff` is NOT deterministic. There is no requirement of the algorithm to modify a file in a specific way as long as the final copy is correct.
+
+&nbsp;
+&nbsp;
+&nbsp;
 
 ## Merging in Git
 
@@ -114,12 +128,16 @@ git commit -m "Make an emergency fix"
 
 ### Types of Merges
 
+---
+
 - Merging with conflicts
 - Merging without conflicts
   - although there are no textual changes, there might be some semantic changes that make things very difficult
   - imagine you remove a function in a merge but there is some other merge that calls that function you removed
 
 ### Mechanism of Merging
+
+---
 
 Suppose:
 
@@ -137,8 +155,8 @@ Suppose:
 diff3 X A Y > combined.diff  # "3-way diff"
 ```
 
-- This file describes changes to change the common ancestor `A` to *either* `X` or `Y`.
-  - Git then applies those changes and creates a *new* commit instance for it, the **merge commit**.
+- This file describes changes to change the common ancestor `A` to _either_ `X` or `Y`.
+  - Git then applies those changes and creates a _new_ commit instance for it, the **merge commit**.
 - The command to merge a branch named `BRANCH_NAME` into the current branch: `git merge BRANCH_NAME`
 
 What this does is:
@@ -152,7 +170,7 @@ What this does is:
 - Alternatively, one can **rebase** a commit onto another branch
   - This takes away the problem where reviewers have to worry about common ancestry and a bunch of diffs. They only need to examine a linear history
   - Bisect works well with this but has a hard time working on the merge
-
+- When rebasing, the branch off of the master, will show up after the current master when merging in the git log
 - `git checkout b`
 - `git rebase main`
 
@@ -165,8 +183,8 @@ What this does is:
 
 ## Merging vs. Rebasing
 
-| Merging                                                                                                               | Rebasing                                                                                                                                                                                                                                                        |
-| --------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Merging                                                                                                                | Rebasing                                                                                                                                                                                                                                                         |
+| ---------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | ➕ Only one commit is created per merge.                                                                               | ➖ A new commit is made for every commit you rebase.                                                                                                                                                                                                             |
 | ➕ Does not change existing commit history, so you're less likely to screw over others working on the same branch.     | ➖ Changes existing commit history. If you misuse this command, you could mess up an important branch like `main` for everyone else. See [the Golden Rule of Rebasing](https://www.atlassian.com/git/tutorials/merging-vs-rebasing#the-golden-rule-of-rebasing). |
 | ➕ Your steps can be fully retraced because you know when each merge was performed.                                    | ➖ It is difficult to see when a rebase actually occurred.                                                                                                                                                                                                       |

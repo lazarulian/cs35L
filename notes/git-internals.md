@@ -15,7 +15,7 @@ Instead, Git wants to have two levels. Even at the low-level, it wants to expose
 
 The entire state of the repository is encoded in the special `.git` directory.
 
-### Compatibility Issues
+### Addressing Compatibility Issues
 
 ---
 
@@ -23,18 +23,18 @@ The entire state of the repository is encoded in the special `.git` directory.
 - The converse is not always true; repositories created by recent versions of Git may not necessarily work with older versions of Git
   - therefore there are some files in the `.git` folder that are archaic.
 
-### Anatomy of the Sub Directory
+### Anatomy of .git Folder
 
 ---
 
-- `branches` - obsolescent - will appear when there are branches within the thing
+- `branches` - obsolescent - will appear when there are branches within the thing (for backwards compatibility mostly)
 - `config` - repository-specific configuration (very standard)
   - tends to act as the barrier to git providing important information about the repository
 - `description` - used for GitWeb, an attempt to put Git on the web (somewhat obsolete)
 - `HEAD` - where the current (default) branch is
 - `hooks/*` - executable scripts that Git will invoke at certain "pressure points" (important triggers, like making a commit). By default, there are no working hooks; default ones all end with `.sample`, which illustrate what you might want to put in such hooks.
   - changing the config files will change the hooks most of the time
-  - you can use these basically to set a certain behaviors within repositories
+  - main purpose of Git hooks is to allow developers to automate and customize their Git workflow based on their specific needs and preferences
 - `index` - a list of planned changes for the next commit in a binary data structure
   - the on file representation of what the future looks like
 - `info/exclude` - addition to `.gitignore`.
@@ -44,6 +44,7 @@ The entire state of the repository is encoded in the special `.git` directory.
   - object database contains pointers to the objects, and the objects point to each other
   - subdirectories are 2 hexadecimal digits and then 38 hexadecimal digits
     - you need to compute the checksum for the object
+    - Using only two digits for the subdirectory name strikes a balance between avoiding having too many subdirectories while still ensuring a good distribution of files across them
 - `refs` - where the branch tips and tags are (where all the "pointers" in the repository are).
 - `packed-refs` - optimized version of `refs` that are less often updated
   - we are building one data structure atop of another
@@ -56,21 +57,20 @@ The entire state of the repository is encoded in the special `.git` directory.
 
 ## Comparison to File Systems
 
-- Git is like a file system such that it saves a persistent state that is built atop the ordinary filesystem
-  - thus, there are similar issues within the two systems
-    - in git and the filesystem there is metadata associated with the files
-    - durability, survive system outages
-    - atomicity - actions should be either done or not done (some actions are not atomic such as cp)
-- The way that git commit has to work internally, is it must use the low level operations that use atomic instructions, not ones that are not atomic
-- In reality, Git actually uses a combination of secondary storage and RAM (cache)
+| Similarities                                                                                                                                                                                             |                                                                                                           Differences |
+| :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------: |
+| hierarchial directory structure & directed acyclic structure (git)                                                                                                                                       |                                                                                 git is built atop regular file system |
+| similar issue is stores metadata of objects and files                                                                                                                                                    | git's naming convention is dependent on the contents of the object, while inode is independent from the mutable files |
+| uses a standard naming convention                                                                                                                                                                        |                                                                                Files in the filesystem can be mutable |
+| provides a set of commands and APIs for interaction                                                                                                                                                      |                                                                                                                    -- |
+| another issue is use low-level atomic instructions for durability including crashes/network                                                                                                              |                                                                                                                    -- |
+| both directed acyclic graphs. In the filesystem, it's guaranteed by the OS that you cannot have cycles. For Git objects, you cannot create a cycle because you can only _add_ to history, not change it. |                                                                                                                    -- |
+
+---
+
 - A local Git repository and the index are made up of **objects** and some other auxiliary files
-- **REMINDER:** Every file has a unique index, namely the **inode number**, which you can see with `ls -i`.
-
-Analogously, SHA-1 checksums for Git objects have the role that inode numbers have in filesystems. They are comparable to pointers in C/C++, values that uniquely identify the actual objects they reference.
-
-**DIFFERENCE:** Files in the filesystem can be mutable. inode numbers thus exist _independently_ of the contents of their files. However, checksums uniquely identify objects _by their content_. Therefore, you **cannot** change objects' contents.
-
-**SIMILARITY:** Both are directed acyclic graphs (DAGs). In the filesystem, it's guaranteed by the OS that you cannot have cycles. For Git objects, you cannot create a cycle because you can only _add_ to history, not change it.
+- Files in the filesystem can be mutable. inode numbers thus exist _independently_ of the contents of their files
+- checksums uniquely identify objects _by their content_. Therefore, you **cannot** change objects' contents.
 
 &nbsp;
 &nbsp;
@@ -85,14 +85,21 @@ Analogously, SHA-1 checksums for Git objects have the role that inode numbers ha
 - **blob**: represents any bytes sequence, like regular files in a file system
   - We convert the blobs to the git hash checksum using the SHA hashing algorithm from the blog
 - **tree**: represents a node in a tree of objects; maps names to SHA-1 checksums of blobs or other tree
+
+### Git Checksums:
+
+---
+
 - **Git Checksum** a cryptographic checksum has three properties:
   - the probability of any hash is 1/2^n where n is the number of bits (160 for SHA-1)
   - finding a byte string to match a given hash is O(2^n) there is no practical way to reverse the hash to the object,
-    - the commit id gives you no information sice it is a one way hash
+    - the commit id gives you no information since it is a one way hash
       Generate a checksum from string content:
   - finding a collision is order of order 2^(n/2)
 - cryptographic hashes were created to see if there was tampering of messages when they are being sent, but these are obsolete because SHA-1 has been cracked
-- The security of git depends on the security of the underlying file system, and its not common for people to want to find the files based off of the commit id, people who want to corrupt the git repo using collisions (2 similar git commits), will not be able to due to system restrictions
+- The security of git depends on the security of the underlying file system, and its not common for people to want to find the files based off of the commit id
+
+> people who want to corrupt the git repo using collisions (2 similar git commits), will not be able to due to system restrictions. This is why SHA-1 is still in use.
 
 ```console
 $ echo 'Arma virumque cano.' | git hash-object --stdin
@@ -194,17 +201,3 @@ Every commit points to a different tree, but the tree can share the objects they
 However, because changing a file would update the tree containing it, changing a deeply nested file would require new tree objects all the way up to the project root for the new commit.
 
 If a file is extremely large, Git can store a _diff_ instead of a full copy and just remember how to restore the full content when the blob is needed.
-
-> Aside: Compression
->
-> There are many techniques that are in use.
->
-> They tend to be app specific (git has a terrible one for video)
->
-> What are the tradeoffs for compression time vs. decompression time
->
-> What are the tradeoffs for % of compression?
->
-> What are the tradeoffs for the ram that is used.
-
-> Huffman Encoding: You have a byte string that has 256 symbols and you want to generate a bit string that is smaller than the byte string. You want to look at which bytes are the most popular and generate a small number of bits for those bytes. You want to denote a larger bit string for less common words. No two symbols can be assigned a bit string such that they are not a prefix of each other. You need to build the huffman tree.
