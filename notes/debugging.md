@@ -3,12 +3,12 @@
 ## Methods to Debug
 
 - There are two main types of debugging
-  - performance - the resources that you need to run the program
-  - the correctness - does the result match the expectation
+  - performance - Change code to optimize for hardware/better performance
+  - the correctness - Verifying that the expected output matches the actual output
 
 ## Operational Tools
 
-- Print statements
+- Print statements (tracking variable states)
 - `time` is a shell command that tells the amount of CPU time it takes to run a program
   - works on the unmodified program
 - `ps` (process status) shows which processes take up the most time
@@ -17,9 +17,6 @@
 - `top` list up the top 20 processes and how much time it has been taking
 - `strace` a meta command that logs to standard error every system call that your program makes
   - these involve instructions to the kernel, instructions to hardware, c-library, graphics-library, etc.
-- Valgrind is more intrusive than STRACE and looks at all of the instructions that it executes
-  - finds bad memory access
-  - access fixed storage
 
 ## System Calls
 
@@ -36,6 +33,28 @@
 4. information maintenance
 5. Communication
 6. Protection
+
+### Valgrind
+
+- valgrind is a debugging tool mainly used to detect memory-related bugs and to log all instructions a program executes.
+- `valigrind ./a.out foo`
+- valgrind isn’t perfect, but it does help against many trivial memory-related bugs such as bad references
+
+```C
+// valgrind will catch
+char *p = NULL;
+*p = 'x';
+// but won’t catch
+char a [10000];
+char *p = &a[10000];
+*p = 'x';
+```
+
+&nbsp;
+&nbsp;
+&nbsp;
+
+## GCC
 
 ### Stack Protection & Security
 
@@ -65,7 +84,7 @@
   - Your code should never call this function
   - The purpose of this is to mark a certain condition in your code as something that will never happen, so the compiler can optimize it away.
 
-### Maximizing Cache Efficiency
+### Maximizing Cache Efficiency (Attributes)
 
 - `__attribute__()` will be a message to the compiler which it can ignore
   - it is good that it can be ignored such that the compiler can ensure that the program does not break due to an incorrect suggestion

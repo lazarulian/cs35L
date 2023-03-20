@@ -256,6 +256,7 @@ In summary, JSON is simpler, smaller, and faster than XML, but XML provides more
   console.log("hello world");
 </script>
 <script src="myscript.js"></script>
+# ^ this takes 2 get requests
 ```
 
 - The `src` attribute specifies the file to fetch
@@ -272,7 +273,7 @@ In summary, JSON is simpler, smaller, and faster than XML, but XML provides more
 - Used in frameworks like React.
 - Uses a **syntax extension** to JavaScript
 - JSX code needs to be mechanically transformed to vanilla JavaScript before it can be interpreted.
-- This is a common pattern in software called **preprocessing**, where code is first written in a more understood fashion before being converted to its functional equivalent.
+  - This is a common pattern in software called **preprocessing**, where code is first written in a more understood fashion before being converted to its functional equivalent.
 - An angle bracket `<` at the start of an expression is invalid in vanilla JavaScript, so `<expression>` denotes the departure from normal JavaScript and the start of a JSX expression:
 
 ```jsx

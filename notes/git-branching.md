@@ -174,11 +174,13 @@ What this does is:
 - `git checkout b`
 - `git rebase main`
 
-```
-( )<--(common)<--( )<--( )<--(main)
-          |
-          +--( )<--(my)
-          Δ1     Δ2
+```git
+(c1)<--(c3) (main)
+    |
+    +--c2 (feature)
+    Δ1
+# After Rebase
+c1<-c3(main)<-c2(feature)
 ```
 
 ## Merging vs. Rebasing

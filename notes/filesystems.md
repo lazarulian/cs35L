@@ -91,7 +91,7 @@ dsafhsagkjsajhgjasjga ..
 sdafkjdhsajsadhgklsda '['
 ```
 
-- Every directory includes links to themselves (`.`) and their parent directory (`..`)
+- Every directory includes hard links to themselves (`.`) and their parent directory (`..`)
   - These are hidden by default, but you can view these with `ls -a`. Note that the parent of the root directory `/` is itself, `/`.
 - File names _starting_ with slash are **absolute paths**, paths that start at the root.
   - File names that do not start with a slash are interpreted as **relative paths**, paths starting from the **current working directory**.

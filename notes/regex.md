@@ -56,6 +56,10 @@ SYNOPSIS
        grep [OPTION...] PATTERNS [FILE...]
        grep [OPTION...] -e PATTERNS ... [FILE...]
        grep [OPTION...] -f PATTERN_FILE ... [FILE...]
+        -n: Print line numbers
+        -l: Print file names
+        -v: Print nonmatching line numbers -i: Ignore case
+
 
 DESCRIPTION
        grep  searches  for  PATTERNS  in  each  FILE.  PATTERNS is one or more

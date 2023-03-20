@@ -11,6 +11,7 @@
   - [Running Multiple Commands](#running-multiple-commands)
     - [Commands in Sequence](#commands-in-sequence)
     - [Special Characters of the Shell](#special-characters-of-the-shell)
+    - [Setting Variables](#setting-variables)
   - [Control Structures](#control-structures)
     - [If and Else](#if-and-else)
   - [Sub Processes](#sub-processes)
@@ -89,6 +90,19 @@ word0, word1, ..., wordn # word0 is the name of the program and word1, ...,
   "general kenobi"
 ```
 
+- Enclosing characters in single quotes `(')` preserves the literal value of each character within the quotes. A single quote may not occur between single quotes, even when preceded by a backslash.
+- Enclosing characters in double quotes `(")` preserves the literal value of all characters within the quotes, with the exception of $, `, \, and, ! when history expansion is enabled
+- Enclosing characters in `\`` tells to evaluate before running the main command, good for variable storage
+
+### Setting Variables
+
+```bash
+curr="./"
+dirs="`ls $curr`"
+dirs=`ls $curr`
+dirs='`ls $curr`' # invalid, would be literal value
+```
+
 ## Control Structures
 
 - if, else, then, done are not reserved
@@ -106,6 +120,14 @@ if cmd1
   then cmd2
   else false
 done
+
+# UPDATED
+if `test -r $i`
+then
+  echo $i
+else
+  action
+fi
 
 [ ] # takes arguments and does some of the obvious comparison functions and stuff
 

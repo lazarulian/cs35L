@@ -1,0 +1,11 @@
+#!/bin/sh
+GDIR="./"
+
+files=`ls $GDIR`
+
+for i in {$files}
+do
+    if `test -r $i`
+        then echo $i
+        fi
+done

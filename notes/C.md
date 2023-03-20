@@ -2,18 +2,22 @@
 
 ## History of C++ and C
 
-- the difference of C++ and C is the object-oriented design portion of C
-  - Things that are missing include (polymorphism, encapsulation, and inheritance)
-- Structs having static data members and functions. Structs in C are strictly collections of data members (plain old data).
-- Namespace control. C has a single top-level namespace.
-- Overloading. There is a feature called `_Generic` that attempts a way around this, but this is esoteric.
-- Exception handling. C has a system with `<setjump.h>` but it has all sort of trouble.
-- Memory allocation built in. There is no `new` operator in C. Instead, you use the _library functions_ `malloc()` and `free()`; they aren't built into the language itself.
-- No `cin`/`cout`. You use IO with the library functions under the `<stdio.h>` header.
+C is the predecessor to C++, so it is missing a lot of ’features’ that C++ has. Some of these are:
+
+- STL
+- Classes and Objects
+  - Polymorphism (foo(int& a) and foo(bool a))
+  - Inheritance (class Dog: public Animal)
+  - Encapsulation (private)
+- Namespace Control
+- Explicit use of static to create singular instances
+- Exception Handling
+- Memory Management: new and delete (wrappers for malloc() and free() respectively) (g) cin, cout, << >>
+- Function Overloading
 
 ## Compilation
 
-**1. Preprocessing (.i)**
+**1. Preprocessing (.c) -> (.i)**
 
 - preprocessor replaces macro definitions in the source code with their corresponding values.
 - preprocessor includes header files in the source code using the "#include" directive
@@ -24,15 +28,16 @@
 gcc -E input.c -o output.i
 ```
 
-**2. Conversion to Assembly (.s)**
+**2. Conversion to Assembly (.c/.i -> .s)**
 
 - turns the c code into the assembly representation that the CPU can understand
 
 ```C
-gcc -S foo.c
+gcc -S foo.c -o foo.s
+gcc -S foo.i -o foo.s
 ```
 
-**3. Conversion to Object Code (.o)**
+**3. Conversion to Object Code (.s/.c -> .o)**
 
 - turns the code into an object file, containing machine instructions with some loose holes that allow for all of the things that are in other modules
 
@@ -41,7 +46,7 @@ gcc -c foo.s -o foo.o
 gcc -c mylibrary.c -o mylibrary.o
 ```
 
-**4. Linking**
+**4. Linking (.o -> .out)**
 
 - _fills in the blanks_ within the file (creates .so files)
 - ".so" files are shared object files that are created by the compiler during the process of linking a program with shared libraries
@@ -124,3 +129,37 @@ int open(const char *pathname, int flags, mode_t mode);
 - `mode`: a bitwise OR of one or more of the following constants, which specify the permissions to be set for the file if it is created by the O_CREAT flag:
 
 The `open()` function returns a file descriptor on success, which is a non-negative integer, or -1 on failure, indicating an error.
+
+### printf()
+
+- %s - Take the next argument and print it as a string
+- %d,i - Take the next argument and print it as an int
+- %f,F - double in normal (fixed-point) notation
+- %e,E - double value in standard form
+- %g,G - double in either normal or exponential notation
+- %x,X - unsigned int
+- %o,O - unsigned int in octal
+- %c - char (character)
+- %p - void\* (pointer to void)
+- %a - double in hexadecimal notation
+- %n - Print nothing, but writes the number of characters written so far into an integer pointer parameter.
+
+## Example
+
+```C
+#include <stdio.h>
+
+char *c[] = {"the", "quick brown fox", "jumped", "over the", "lazy dog"};
+char **cp[] = {c + 3, c + 2, c + 1, c, c + 4};
+char ***cpp = cp;
+
+int main(void)
+{
+    printf("%s\n", **(cpp + 3));    // prints (the)
+    printf("%s\n", **(cp + 4) + 4); // prints ( dog) // plus four means go 4
+    printf("%s\n", **(++cpp));      // prints (jumped) (second item c+3)
+    printf("%s\n", **cp);           // prints (over the) (first item c+3)
+    printf("%s\n", **(++cpp) + 5);  // prints (brown fox)
+    return 0;
+}
+```
